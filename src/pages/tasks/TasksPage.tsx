@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Outlet, useMatchRoute, useNavigate } from "@tanstack/react-router";
+import { Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import { useMemo, useState } from "react";
 import { useUser } from "@clerk/react";
@@ -36,7 +36,7 @@ function getPriorityRank(priority: string) {
 }
 
 function TasksPage() {
-  const matchRoute = useMatchRoute();
+  const location = useLocation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isSignedIn, user } = useUser();
@@ -71,10 +71,8 @@ function TasksPage() {
     },
   });
 
-  const childTaskRoute = matchRoute({
-    to: "/tasks/$taskId",
-    fuzzy: true,
-  });
+  const isTaskChildRoute =
+    location.pathname !== "/tasks" && location.pathname.startsWith("/tasks/");
 
   const tasks = useMemo(() => (data ?? []) as Task[], [data]);
   const canManageTasks = isSignedIn && user?.publicMetadata?.role === "admin";
@@ -141,7 +139,7 @@ function TasksPage() {
     safePage * pageSize,
   );
 
-  if (childTaskRoute) {
+  if (isTaskChildRoute) {
     return <Outlet />;
   }
 

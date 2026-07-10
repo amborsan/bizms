@@ -1,4 +1,4 @@
-import { Link, Outlet, useMatchRoute, useParams } from "@tanstack/react-router";
+import { Link, Outlet, useLocation, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import {
@@ -9,7 +9,7 @@ import type { Task } from "./task.types";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "./taskBadges";
 
 function TaskDetailsPage() {
-  const matchRoute = useMatchRoute();
+  const location = useLocation();
   const { taskId } = useParams({ from: "/_public/tasks/$taskId" });
   const {
     data: task,
@@ -25,12 +25,9 @@ function TaskDetailsPage() {
       return data;
     },
   });
-  const editRoute = matchRoute({
-    to: "/tasks/$taskId/edit",
-    fuzzy: true,
-  });
+  const isEditRoute = location.pathname.endsWith("/edit");
 
-  if (editRoute) {
+  if (isEditRoute) {
     return <Outlet />;
   }
 

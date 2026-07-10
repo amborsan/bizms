@@ -1,77 +1,70 @@
-# React + TypeScript + Vite
+# BizMS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+BizMS is a small business management web application built with React and TypeScript. It helps users manage key business resources from one dashboard, including tasks, customers, and employees.
 
-Currently, two official plugins are available:
+## Project Summary
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The app focuses on clean navigation and practical workflows for day-to-day operations:
 
-## React Compiler
+- View and manage tasks with filters, sorting, and pagination
+- Track customers and customer details
+- Manage employee records
+- Navigate between list views and detail views with a file-based routing setup
+- Protect selected pages with role-based access checks
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Technologies Used
 
-Note: This will impact Vite dev & build performances.
+- React 19: Component-based user interface
+- TypeScript: Static typing and safer refactoring
+- Vite: Fast development server and build tool
+- TanStack Router: File-based routing and nested route handling
+- TanStack Query: Data fetching, caching, and invalidation
+- Axios: HTTP client for API calls
+- Clerk: Authentication and user context
+- Tailwind CSS + DaisyUI: Utility-first styling and UI primitives
+- JSON Server: Local mock backend via db.json
+- ESLint + Prettier: Code quality and formatting
 
-## Expanding the ESLint configuration
+## Project Structure (High Level)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- src/pages: Feature pages (tasks, customers, employees, auth, dashboard)
+- src/routes: Route definitions and nested route hierarchy
+- src/components: Shared UI components (atoms, molecules, organisms)
+- src/context: Shared contexts (theme, toast)
+- src/features: Domain-specific state logic
+- src/services/api: API layer and Axios setup
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Local Development
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. Install dependencies:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Start mock API server (port 3001):
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run server
 ```
+
+3. Start the frontend app:
+
+```bash
+npm run dev
+```
+
+4. Open the app in your browser at the local Vite URL shown in terminal.
+
+## Available Scripts
+
+- npm run dev: Run Vite development server
+- npm run server: Run JSON Server with db.json
+- npm run build: Type-check and build for production
+- npm run lint: Run ESLint checks
+- npm run preview: Preview production build
+
+## Notes
+
+- The app currently uses a local mock backend for development.
+- Data is stored in db.json during local runs.
