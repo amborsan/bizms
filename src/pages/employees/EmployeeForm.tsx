@@ -6,6 +6,7 @@ import Button from "../../components/atoms/Button/Button";
 import FieldComponent from "../../components/atoms/forms/FieldComponent";
 import Input from "../../components/atoms/forms/Input";
 import type { Employee, EmployeeFormValues } from "./employee.types";
+import { useToast } from "../../context/ToastContext";
 
 const employeeSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -19,6 +20,8 @@ type EmployeeFormProps = {
 };
 
 function EmployeeForm({ employee, onSuccess }: EmployeeFormProps) {
+  const { showToast } = useToast();
+
   const mutation = useMutation({
     mutationFn: async (employeeValues: EmployeeFormValues) => {
       const { data } = await axios.put<Employee>(
@@ -32,7 +35,11 @@ function EmployeeForm({ employee, onSuccess }: EmployeeFormProps) {
       return data;
     },
     onSuccess: (updatedEmployee) => {
+      showToast("Employee updated successfully.", { type: "success" });
       onSuccess(updatedEmployee);
+    },
+    onError: () => {
+      showToast("Employee could not be saved.", { type: "error" });
     },
   });
 

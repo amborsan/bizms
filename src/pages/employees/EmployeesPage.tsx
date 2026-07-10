@@ -12,6 +12,7 @@ import {
   TrashIcon,
 } from "../../components/molecules/ResourceCard";
 import type { Employee } from "./employee.types";
+import { useToast } from "../../context/ToastContext";
 
 const EMPLOYEE_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 const EMPLOYEE_SORT_OPTIONS = [
@@ -28,6 +29,7 @@ function EmployeesPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isSignedIn, user } = useUser();
+  const { showToast } = useToast();
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<EmployeeSortValue>("name-asc");
   const [pageSize, setPageSize] =
@@ -55,6 +57,10 @@ function EmployeesPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] });
+      showToast("Employee deleted successfully.", { type: "success" });
+    },
+    onError: () => {
+      showToast("Employee could not be deleted.", { type: "error" });
     },
   });
 

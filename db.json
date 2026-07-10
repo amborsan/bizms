@@ -28,15 +28,6 @@
       "id": "8zSZwd7M8AE"
     },
     {
-      "title": "Another2",
-      "description": "dsdsfdsfeeeeeeeeeeeeeeeeee",
-      "status": "Pending",
-      "category": "Manifacturing",
-      "priority": "High",
-      "createdat": "7/10/2026",
-      "id": "nmQrqJNXRIs"
-    },
-    {
       "id": "task-001",
       "title": "Invoice review",
       "description": "Check the weekly invoice batch for missing entries.",

@@ -7,6 +7,7 @@ import FieldComponent from "./FieldComponent";
 import Input from "./Input";
 import SelectInput from "./SelectInput";
 import type { Task, TaskFormValues } from "../../../pages/tasks/task.types";
+import { useToast } from "../../../context/ToastContext";
 
 const taskSchema = z.object({
   title: z
@@ -40,6 +41,8 @@ function CreateTaskForm({
   mode = "create",
   onSuccess,
 }: CreateTaskFormProps) {
+  const { showToast } = useToast();
+
   const mutation = useMutation({
     mutationFn: async (taskValues: TaskFormValues) => {
       if (mode === "edit" && initialValues?.id) {
@@ -62,7 +65,16 @@ function CreateTaskForm({
       return data;
     },
     onSuccess: (task) => {
+      showToast(
+        mode === "edit"
+          ? "Task updated successfully."
+          : "Task created successfully.",
+        { type: "success" },
+      );
       onSuccess?.(task);
+    },
+    onError: () => {
+      showToast("Task could not be saved.", { type: "error" });
     },
   });
 

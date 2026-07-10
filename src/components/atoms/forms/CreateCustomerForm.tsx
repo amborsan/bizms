@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import z from "zod";
 import FieldComponent from "./FieldComponent";
 import Input from "./Input";
+import { useToast } from "../../../context/ToastContext";
 
 import type {
   Customer,
@@ -30,6 +31,8 @@ function CreateCustommerForm({
   mode = "create",
   onSuccess,
 }: CustomerFormProps) {
+  const { showToast } = useToast();
+
   const mutation = useMutation({
     mutationFn: async (customerValues: CustomerFormValues) => {
       if (mode === "edit" && initialValues?.id) {
@@ -52,7 +55,16 @@ function CreateCustommerForm({
       return data;
     },
     onSuccess: (customer) => {
+      showToast(
+        mode === "edit"
+          ? "Customer updated successfully."
+          : "Customer created successfully.",
+        { type: "success" },
+      );
       onSuccess(customer);
+    },
+    onError: () => {
+      showToast("Customer could not be saved.", { type: "error" });
     },
   });
 

@@ -3,6 +3,7 @@ import type { ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { z } from "zod";
 import type { Customer, CustomerFormValues } from "./customer.types";
+import { useToast } from "../../context/ToastContext";
 
 const customerSchema = z.object({
   Title: z.string().min(2, "Company title is required"),
@@ -18,6 +19,7 @@ type CustomerFormProps = {
 };
 
 function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
+  const { showToast } = useToast();
   const [formData, setFormData] = useState<CustomerFormValues>({
     Title: customer.Title,
     address: customer.address,
@@ -46,15 +48,21 @@ function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
 
     setError("");
 
-    const { data } = await axios.put<Customer>(
-      `http://localhost:3001/custommers/${customer.id}`,
-      {
-        ...result.data,
-        id: customer.id,
-      },
-    );
+    try {
+      const { data } = await axios.put<Customer>(
+        `http://localhost:3001/customers/${customer.id}`,
+        {
+          ...result.data,
+          id: customer.id,
+        },
+      );
 
-    onSuccess(data);
+      showToast("Customer updated successfully.", { type: "success" });
+      onSuccess(data);
+    } catch {
+      showToast("Customer could not be saved.", { type: "error" });
+      setError("Customer could not be saved.");
+    }
   }
 
   return (

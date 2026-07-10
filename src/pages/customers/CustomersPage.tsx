@@ -12,6 +12,7 @@ import {
   TrashIcon,
 } from "../../components/molecules/ResourceCard";
 import type { Customer } from "./customer.types";
+import { useToast } from "../../context/ToastContext";
 
 const CUSTOMER_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 const CUSTOMER_SORT_OPTIONS = [
@@ -30,6 +31,7 @@ function CustomersPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isSignedIn, user } = useUser();
+  const { showToast } = useToast();
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<CustomerSortValue>("title-asc");
   const [pageSize, setPageSize] =
@@ -57,6 +59,10 @@ function CustomersPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });
+      showToast("Customer deleted successfully.", { type: "success" });
+    },
+    onError: () => {
+      showToast("Customer could not be deleted.", { type: "error" });
     },
   });
 

@@ -13,6 +13,7 @@ import {
 } from "../../components/molecules/ResourceCard";
 import type { Task } from "./task.types";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "./taskBadges";
+import { useToast } from "../../context/ToastContext";
 
 const TASK_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 const TASK_SORT_OPTIONS = [
@@ -39,6 +40,7 @@ function TasksPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isSignedIn, user } = useUser();
+  const { showToast } = useToast();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -62,6 +64,10 @@ function TasksPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      showToast("Task deleted successfully.", { type: "success" });
+    },
+    onError: () => {
+      showToast("Task could not be deleted.", { type: "error" });
     },
   });
 
