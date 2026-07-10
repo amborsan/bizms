@@ -15,12 +15,19 @@ import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicTasksRouteImport } from './routes/_public/tasks'
 import { Route as PublicSignupRouteImport } from './routes/_public/signup'
 import { Route as PublicSigninRouteImport } from './routes/_public/signin'
+import { Route as PublicCustomersRouteImport } from './routes/_public/customers'
 import { Route as PublicCreateTaskRouteImport } from './routes/_public/create-task'
 import { Route as ProtectedSalesRouteImport } from './routes/_protected/sales'
 import { Route as ProtectedReportsRouteImport } from './routes/_protected/reports'
 import { Route as ProtectedProductsRouteImport } from './routes/_protected/products'
 import { Route as ProtectedEmployeesRouteImport } from './routes/_protected/employees'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as PublicTasksTaskIdRouteImport } from './routes/_public/tasks.$taskId'
+import { Route as PublicCustomersCustomerIdRouteImport } from './routes/_public/customers.$customerId'
+import { Route as ProtectedEmployeesEmployeeIdRouteImport } from './routes/_protected/employees.$employeeId'
+import { Route as PublicTasksTaskIdEditRouteImport } from './routes/_public/tasks.$taskId.edit'
+import { Route as PublicCustomersCustomerIdEditRouteImport } from './routes/_public/customers.$customerId.edit'
+import { Route as ProtectedEmployeesEmployeeIdEditRouteImport } from './routes/_protected/employees.$employeeId.edit'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
   id: '/_public',
@@ -48,6 +55,11 @@ const PublicSignupRoute = PublicSignupRouteImport.update({
 const PublicSigninRoute = PublicSigninRouteImport.update({
   id: '/signin',
   path: '/signin',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicCustomersRoute = PublicCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
   getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicCreateTaskRoute = PublicCreateTaskRouteImport.update({
@@ -80,45 +92,100 @@ const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
+const PublicTasksTaskIdRoute = PublicTasksTaskIdRouteImport.update({
+  id: '/$taskId',
+  path: '/$taskId',
+  getParentRoute: () => PublicTasksRoute,
+} as any)
+const PublicCustomersCustomerIdRoute =
+  PublicCustomersCustomerIdRouteImport.update({
+    id: '/$customerId',
+    path: '/$customerId',
+    getParentRoute: () => PublicCustomersRoute,
+  } as any)
+const ProtectedEmployeesEmployeeIdRoute =
+  ProtectedEmployeesEmployeeIdRouteImport.update({
+    id: '/$employeeId',
+    path: '/$employeeId',
+    getParentRoute: () => ProtectedEmployeesRoute,
+  } as any)
+const PublicTasksTaskIdEditRoute = PublicTasksTaskIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => PublicTasksTaskIdRoute,
+} as any)
+const PublicCustomersCustomerIdEditRoute =
+  PublicCustomersCustomerIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => PublicCustomersCustomerIdRoute,
+  } as any)
+const ProtectedEmployeesEmployeeIdEditRoute =
+  ProtectedEmployeesEmployeeIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => ProtectedEmployeesEmployeeIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
-  '/employees': typeof ProtectedEmployeesRoute
+  '/employees': typeof ProtectedEmployeesRouteWithChildren
   '/products': typeof ProtectedProductsRoute
   '/reports': typeof ProtectedReportsRoute
   '/sales': typeof ProtectedSalesRoute
   '/create-task': typeof PublicCreateTaskRoute
+  '/customers': typeof PublicCustomersRouteWithChildren
   '/signin': typeof PublicSigninRoute
   '/signup': typeof PublicSignupRoute
-  '/tasks': typeof PublicTasksRoute
+  '/tasks': typeof PublicTasksRouteWithChildren
+  '/employees/$employeeId': typeof ProtectedEmployeesEmployeeIdRouteWithChildren
+  '/customers/$customerId': typeof PublicCustomersCustomerIdRouteWithChildren
+  '/tasks/$taskId': typeof PublicTasksTaskIdRouteWithChildren
+  '/employees/$employeeId/edit': typeof ProtectedEmployeesEmployeeIdEditRoute
+  '/customers/$customerId/edit': typeof PublicCustomersCustomerIdEditRoute
+  '/tasks/$taskId/edit': typeof PublicTasksTaskIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
-  '/employees': typeof ProtectedEmployeesRoute
+  '/employees': typeof ProtectedEmployeesRouteWithChildren
   '/products': typeof ProtectedProductsRoute
   '/reports': typeof ProtectedReportsRoute
   '/sales': typeof ProtectedSalesRoute
   '/create-task': typeof PublicCreateTaskRoute
+  '/customers': typeof PublicCustomersRouteWithChildren
   '/signin': typeof PublicSigninRoute
   '/signup': typeof PublicSignupRoute
-  '/tasks': typeof PublicTasksRoute
+  '/tasks': typeof PublicTasksRouteWithChildren
+  '/employees/$employeeId': typeof ProtectedEmployeesEmployeeIdRouteWithChildren
+  '/customers/$customerId': typeof PublicCustomersCustomerIdRouteWithChildren
+  '/tasks/$taskId': typeof PublicTasksTaskIdRouteWithChildren
+  '/employees/$employeeId/edit': typeof ProtectedEmployeesEmployeeIdEditRoute
+  '/customers/$customerId/edit': typeof PublicCustomersCustomerIdEditRoute
+  '/tasks/$taskId/edit': typeof PublicTasksTaskIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
   '/_protected/dashboard': typeof ProtectedDashboardRoute
-  '/_protected/employees': typeof ProtectedEmployeesRoute
+  '/_protected/employees': typeof ProtectedEmployeesRouteWithChildren
   '/_protected/products': typeof ProtectedProductsRoute
   '/_protected/reports': typeof ProtectedReportsRoute
   '/_protected/sales': typeof ProtectedSalesRoute
   '/_public/create-task': typeof PublicCreateTaskRoute
+  '/_public/customers': typeof PublicCustomersRouteWithChildren
   '/_public/signin': typeof PublicSigninRoute
   '/_public/signup': typeof PublicSignupRoute
-  '/_public/tasks': typeof PublicTasksRoute
+  '/_public/tasks': typeof PublicTasksRouteWithChildren
   '/_public/': typeof PublicIndexRoute
+  '/_protected/employees/$employeeId': typeof ProtectedEmployeesEmployeeIdRouteWithChildren
+  '/_public/customers/$customerId': typeof PublicCustomersCustomerIdRouteWithChildren
+  '/_public/tasks/$taskId': typeof PublicTasksTaskIdRouteWithChildren
+  '/_protected/employees/$employeeId/edit': typeof ProtectedEmployeesEmployeeIdEditRoute
+  '/_public/customers/$customerId/edit': typeof PublicCustomersCustomerIdEditRoute
+  '/_public/tasks/$taskId/edit': typeof PublicTasksTaskIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -130,9 +197,16 @@ export interface FileRouteTypes {
     | '/reports'
     | '/sales'
     | '/create-task'
+    | '/customers'
     | '/signin'
     | '/signup'
     | '/tasks'
+    | '/employees/$employeeId'
+    | '/customers/$customerId'
+    | '/tasks/$taskId'
+    | '/employees/$employeeId/edit'
+    | '/customers/$customerId/edit'
+    | '/tasks/$taskId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -142,9 +216,16 @@ export interface FileRouteTypes {
     | '/reports'
     | '/sales'
     | '/create-task'
+    | '/customers'
     | '/signin'
     | '/signup'
     | '/tasks'
+    | '/employees/$employeeId'
+    | '/customers/$customerId'
+    | '/tasks/$taskId'
+    | '/employees/$employeeId/edit'
+    | '/customers/$customerId/edit'
+    | '/tasks/$taskId/edit'
   id:
     | '__root__'
     | '/_protected'
@@ -155,10 +236,17 @@ export interface FileRouteTypes {
     | '/_protected/reports'
     | '/_protected/sales'
     | '/_public/create-task'
+    | '/_public/customers'
     | '/_public/signin'
     | '/_public/signup'
     | '/_public/tasks'
     | '/_public/'
+    | '/_protected/employees/$employeeId'
+    | '/_public/customers/$customerId'
+    | '/_public/tasks/$taskId'
+    | '/_protected/employees/$employeeId/edit'
+    | '/_public/customers/$customerId/edit'
+    | '/_public/tasks/$taskId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSigninRouteImport
       parentRoute: typeof PublicRouteRoute
     }
+    '/_public/customers': {
+      id: '/_public/customers'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof PublicCustomersRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
     '/_public/create-task': {
       id: '/_public/create-task'
       path: '/create-task'
@@ -252,12 +347,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
+    '/_public/tasks/$taskId': {
+      id: '/_public/tasks/$taskId'
+      path: '/$taskId'
+      fullPath: '/tasks/$taskId'
+      preLoaderRoute: typeof PublicTasksTaskIdRouteImport
+      parentRoute: typeof PublicTasksRoute
+    }
+    '/_public/customers/$customerId': {
+      id: '/_public/customers/$customerId'
+      path: '/$customerId'
+      fullPath: '/customers/$customerId'
+      preLoaderRoute: typeof PublicCustomersCustomerIdRouteImport
+      parentRoute: typeof PublicCustomersRoute
+    }
+    '/_protected/employees/$employeeId': {
+      id: '/_protected/employees/$employeeId'
+      path: '/$employeeId'
+      fullPath: '/employees/$employeeId'
+      preLoaderRoute: typeof ProtectedEmployeesEmployeeIdRouteImport
+      parentRoute: typeof ProtectedEmployeesRoute
+    }
+    '/_public/tasks/$taskId/edit': {
+      id: '/_public/tasks/$taskId/edit'
+      path: '/edit'
+      fullPath: '/tasks/$taskId/edit'
+      preLoaderRoute: typeof PublicTasksTaskIdEditRouteImport
+      parentRoute: typeof PublicTasksTaskIdRoute
+    }
+    '/_public/customers/$customerId/edit': {
+      id: '/_public/customers/$customerId/edit'
+      path: '/edit'
+      fullPath: '/customers/$customerId/edit'
+      preLoaderRoute: typeof PublicCustomersCustomerIdEditRouteImport
+      parentRoute: typeof PublicCustomersCustomerIdRoute
+    }
+    '/_protected/employees/$employeeId/edit': {
+      id: '/_protected/employees/$employeeId/edit'
+      path: '/edit'
+      fullPath: '/employees/$employeeId/edit'
+      preLoaderRoute: typeof ProtectedEmployeesEmployeeIdEditRouteImport
+      parentRoute: typeof ProtectedEmployeesEmployeeIdRoute
+    }
   }
 }
 
+interface ProtectedEmployeesEmployeeIdRouteChildren {
+  ProtectedEmployeesEmployeeIdEditRoute: typeof ProtectedEmployeesEmployeeIdEditRoute
+}
+
+const ProtectedEmployeesEmployeeIdRouteChildren: ProtectedEmployeesEmployeeIdRouteChildren =
+  {
+    ProtectedEmployeesEmployeeIdEditRoute:
+      ProtectedEmployeesEmployeeIdEditRoute,
+  }
+
+const ProtectedEmployeesEmployeeIdRouteWithChildren =
+  ProtectedEmployeesEmployeeIdRoute._addFileChildren(
+    ProtectedEmployeesEmployeeIdRouteChildren,
+  )
+
+interface ProtectedEmployeesRouteChildren {
+  ProtectedEmployeesEmployeeIdRoute: typeof ProtectedEmployeesEmployeeIdRouteWithChildren
+}
+
+const ProtectedEmployeesRouteChildren: ProtectedEmployeesRouteChildren = {
+  ProtectedEmployeesEmployeeIdRoute:
+    ProtectedEmployeesEmployeeIdRouteWithChildren,
+}
+
+const ProtectedEmployeesRouteWithChildren =
+  ProtectedEmployeesRoute._addFileChildren(ProtectedEmployeesRouteChildren)
+
 interface ProtectedRouteRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
-  ProtectedEmployeesRoute: typeof ProtectedEmployeesRoute
+  ProtectedEmployeesRoute: typeof ProtectedEmployeesRouteWithChildren
   ProtectedProductsRoute: typeof ProtectedProductsRoute
   ProtectedReportsRoute: typeof ProtectedReportsRoute
   ProtectedSalesRoute: typeof ProtectedSalesRoute
@@ -265,7 +429,7 @@ interface ProtectedRouteRouteChildren {
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
-  ProtectedEmployeesRoute: ProtectedEmployeesRoute,
+  ProtectedEmployeesRoute: ProtectedEmployeesRouteWithChildren,
   ProtectedProductsRoute: ProtectedProductsRoute,
   ProtectedReportsRoute: ProtectedReportsRoute,
   ProtectedSalesRoute: ProtectedSalesRoute,
@@ -275,19 +439,70 @@ const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
   ProtectedRouteRouteChildren,
 )
 
+interface PublicCustomersCustomerIdRouteChildren {
+  PublicCustomersCustomerIdEditRoute: typeof PublicCustomersCustomerIdEditRoute
+}
+
+const PublicCustomersCustomerIdRouteChildren: PublicCustomersCustomerIdRouteChildren =
+  {
+    PublicCustomersCustomerIdEditRoute: PublicCustomersCustomerIdEditRoute,
+  }
+
+const PublicCustomersCustomerIdRouteWithChildren =
+  PublicCustomersCustomerIdRoute._addFileChildren(
+    PublicCustomersCustomerIdRouteChildren,
+  )
+
+interface PublicCustomersRouteChildren {
+  PublicCustomersCustomerIdRoute: typeof PublicCustomersCustomerIdRouteWithChildren
+}
+
+const PublicCustomersRouteChildren: PublicCustomersRouteChildren = {
+  PublicCustomersCustomerIdRoute: PublicCustomersCustomerIdRouteWithChildren,
+}
+
+const PublicCustomersRouteWithChildren = PublicCustomersRoute._addFileChildren(
+  PublicCustomersRouteChildren,
+)
+
+interface PublicTasksTaskIdRouteChildren {
+  PublicTasksTaskIdEditRoute: typeof PublicTasksTaskIdEditRoute
+}
+
+const PublicTasksTaskIdRouteChildren: PublicTasksTaskIdRouteChildren = {
+  PublicTasksTaskIdEditRoute: PublicTasksTaskIdEditRoute,
+}
+
+const PublicTasksTaskIdRouteWithChildren =
+  PublicTasksTaskIdRoute._addFileChildren(PublicTasksTaskIdRouteChildren)
+
+interface PublicTasksRouteChildren {
+  PublicTasksTaskIdRoute: typeof PublicTasksTaskIdRouteWithChildren
+}
+
+const PublicTasksRouteChildren: PublicTasksRouteChildren = {
+  PublicTasksTaskIdRoute: PublicTasksTaskIdRouteWithChildren,
+}
+
+const PublicTasksRouteWithChildren = PublicTasksRoute._addFileChildren(
+  PublicTasksRouteChildren,
+)
+
 interface PublicRouteRouteChildren {
   PublicCreateTaskRoute: typeof PublicCreateTaskRoute
+  PublicCustomersRoute: typeof PublicCustomersRouteWithChildren
   PublicSigninRoute: typeof PublicSigninRoute
   PublicSignupRoute: typeof PublicSignupRoute
-  PublicTasksRoute: typeof PublicTasksRoute
+  PublicTasksRoute: typeof PublicTasksRouteWithChildren
   PublicIndexRoute: typeof PublicIndexRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicCreateTaskRoute: PublicCreateTaskRoute,
+  PublicCustomersRoute: PublicCustomersRouteWithChildren,
   PublicSigninRoute: PublicSigninRoute,
   PublicSignupRoute: PublicSignupRoute,
-  PublicTasksRoute: PublicTasksRoute,
+  PublicTasksRoute: PublicTasksRouteWithChildren,
   PublicIndexRoute: PublicIndexRoute,
 }
 

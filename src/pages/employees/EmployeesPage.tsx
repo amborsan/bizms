@@ -8,35 +8,38 @@ import {
   ResourceGrid,
   TrashIcon,
 } from "../../components/molecules/ResourceCard";
-import type { Task } from "./task.types";
-import { getPriorityBadgeClass, getStatusBadgeClass } from "./taskBadges";
+import type { Employee } from "./employee.types";
 
-function TasksPage() {
+function EmployeesPage() {
   const matchRoute = useMatchRoute();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["tasks"],
-    queryFn: async () => {
-      const { data } = await axios.get("http://localhost:3001/tasks");
 
-      return data;
-    },
-  });
-  const deleteMutation = useMutation({
-    mutationFn: (taskId: string) => {
-      return axios.delete(`http://localhost:3001/tasks/${taskId}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
-  });
-  const childTaskRoute = matchRoute({
-    to: "/tasks/$taskId",
+  const childRoute = matchRoute({
+    to: "/employees/$employeeId",
     fuzzy: true,
   });
 
-  if (childTaskRoute) {
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["employees"],
+    queryFn: async () => {
+      const { data } = await axios.get<Employee[]>(
+        "http://localhost:3001/employees",
+      );
+      return data;
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (employeeId: string) => {
+      return axios.delete(`http://localhost:3001/employees/${employeeId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["employees"] });
+    },
+  });
+
+  if (childRoute) {
     return <Outlet />;
   }
 
@@ -45,82 +48,85 @@ function TasksPage() {
   }
 
   if (isError) {
-    return <div className="alert alert-error">Something went wrong.</div>;
+    return <div className="alert alert-error">Employees could not load.</div>;
   }
 
-  const tasks = data as Task[];
+  const employees = data || [];
 
   return (
     <section className="space-y-6 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm sm:p-6">
       <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
-            Operations
+            Team
           </p>
-          <h1 className="mt-1 text-3xl font-bold text-slate-950">Tasks</h1>
+          <h1 className="mt-1 text-3xl font-bold text-slate-950">
+            Employees
+          </h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-            Review open work, priorities, and task ownership details.
+            Review employees and update their contact information.
           </p>
         </div>
         <div className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-right shadow-sm">
-          <p className="text-2xl font-bold text-slate-950">{tasks.length}</p>
+          <p className="text-2xl font-bold text-slate-950">
+            {employees.length}
+          </p>
           <p className="text-xs font-medium uppercase text-slate-500">
-            Total tasks
+            Total employees
           </p>
         </div>
       </div>
 
-      <ResourceGrid isEmpty={tasks.length === 0} emptyMessage="No tasks found.">
-        {tasks.map((task) => (
+      <ResourceGrid
+        isEmpty={employees.length === 0}
+        emptyMessage="No employees found."
+      >
+        {employees.map((employee) => (
           <ResourceCard
-            key={task.id}
-            title={task.title || "Untitled task"}
-            description={task.description || "No description provided."}
+            key={employee.id}
+            title={employee.name}
+            description={employee.email}
             badges={[
               {
-                label: task.status || "No status",
-                className: getStatusBadgeClass(task.status),
-              },
-              {
-                label: task.priority || "No priority",
-                className: getPriorityBadgeClass(task.priority),
+                label: employee.department,
+                className: "bg-blue-50 text-blue-700 ring-1 ring-blue-200",
               },
             ]}
             fields={[
               {
-                label: "Category",
-                value: task.category || "Unassigned",
+                label: "Department",
+                value: employee.department,
               },
               {
-                label: "Created",
-                value: task.createdat || "Unknown",
+                label: "Email",
+                value: employee.email,
               },
             ]}
             actions={[
               {
                 icon: <EyeIcon />,
-                label: "View task",
+                label: "View employee",
                 onClick: () =>
                   navigate({
-                    to: "/tasks/$taskId",
-                    params: { taskId: task.id },
+                    to: "/employees/$employeeId",
+                    params: { employeeId: employee.id },
                   }),
                 variant: "primary",
               },
               {
                 icon: <EditIcon />,
-                label: "Edit task",
+                label: "Edit employee",
                 onClick: () =>
                   navigate({
-                    to: "/tasks/$taskId/edit",
-                    params: { taskId: task.id },
+                    to: "/employees/$employeeId/edit",
+                    params: { employeeId: employee.id },
                   }),
                 variant: "ghost",
               },
               {
                 icon: <TrashIcon />,
-                label: "Delete task",
-                onClick: () => deleteMutation.mutate(task.id),
+                label: "Delete employee",
+                onClick: () => deleteMutation.mutate(employee.id),
                 variant: "error",
               },
             ]}
@@ -131,4 +137,4 @@ function TasksPage() {
   );
 }
 
-export default TasksPage;
+export default EmployeesPage;

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import Employees from "../../pages/Employees";
+import EmployeesPage from "../../pages/employees/EmployeesPage";
 
 export const Route = createFileRoute("/_protected/employees")({
-  component: Employees,
+  component: EmployeesPage,
 });

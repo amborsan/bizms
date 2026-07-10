@@ -3,16 +3,23 @@ import Button from "../Button/Button";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import z from "zod";
+import FieldComponent from "./FieldComponent";
+import Input from "./Input";
+import SelectInput from "./SelectInput";
+import type { Task, TaskFormValues } from "../../../pages/tasks/task.types";
 
-const taskScheme = {
-  title: z.string().min(3).max(50),
-  description: z.string(),
-  status: z.string(),
-  category: z.string(),
-  priority: z.string(),
+const taskSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(3, "Title must be at least 3 characters")
+    .max(50, "Title must be 50 characters or less"),
+  description: z.string().trim().min(1, "Description is required"),
+  status: z.string().min(1, "Status is required"),
+  category: z.string().min(1, "Category is required"),
+  priority: z.string().min(1, "Priority is required"),
   createdat: z.string(),
-};
-type Task = z.infer<typeof taskScheme>;
+});
 const statuses = ["Completed", "Pending", "In progress", "canceled", "open"];
 const priorities = ["High", "Medium", "Low"];
 const categories = [
@@ -22,136 +29,142 @@ const categories = [
   "Manifacturing",
   "Quality control",
 ];
-function AddEmployeeForm() {
-  // const [tasks, setTasks] = useState({});
+type CreateTaskFormProps = {
+  initialValues?: Task;
+  mode?: "create" | "edit";
+  onSuccess?: (task: Task) => void;
+};
+
+function CreateTaskForm({
+  initialValues,
+  mode = "create",
+  onSuccess,
+}: CreateTaskFormProps) {
   const mutation = useMutation({
-    mutationFn: (newTask: Task) => {
-      return axios.post("http://localhost:3001/tasks", newTask);
+    mutationFn: async (taskValues: TaskFormValues) => {
+      if (mode === "edit" && initialValues?.id) {
+        const { data } = await axios.put<Task>(
+          `http://localhost:3001/tasks/${initialValues.id}`,
+          {
+            ...taskValues,
+            id: initialValues.id,
+          },
+        );
+
+        return data;
+      }
+
+      const { data } = await axios.post<Task>(
+        "http://localhost:3001/tasks",
+        taskValues,
+      );
+
+      return data;
+    },
+    onSuccess: (task) => {
+      onSuccess?.(task);
     },
   });
 
-  const defaultTask: Task = {
-    title: "",
-    description: "",
-    status: "",
-    category: "",
-    priority: "",
-    createdat: new Date().toLocaleDateString(),
+  const defaultTask: TaskFormValues = {
+    title: initialValues?.title ?? "",
+    description: initialValues?.description ?? "",
+    status: initialValues?.status ?? "",
+    category: initialValues?.category ?? "",
+    priority: initialValues?.priority ?? "",
+    createdat: initialValues?.createdat ?? new Date().toLocaleDateString(),
   };
-  /*   const getTasks = async () => {
-    const { fetchedTasks } = await axios.get("http://localhost:3001/tasks");
-  }; */
-  /*   const handleInput = async (e, taskInput) => {
-    const inputData = e.target.value;
-    setTask({ ...task, taskInput: inputData });
-    console.log("Task: ", inputData);
-  }; */
+
   const form = useForm({
     defaultValues: defaultTask,
+    validators: {
+      onChange: taskSchema,
+      onSubmit: taskSchema,
+    },
     onSubmit: ({ value }) => {
-      mutation.mutate(value);
+      mutation.mutate(taskSchema.parse(value));
     },
   });
   return (
-    <div>
-      <form action={form.handleSubmit}>
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <form.Field name="title">
-            {(field) => {
-              //   console.log('Field', field)
-              return (
-                <>
-                  <input
-                    className="block min-w-0 grow bg-amber-200 py-1.5 pr-3 pl-1 text-base text-blue placeholder:text-gray-500 focus:outline-1 sm:text-sm/6"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  status
-                </>
-              );
-            }}
-          </form.Field>
-          <form.Field name="description">
-            {(field) => {
-              //   console.log('statusField', field)
-              return (
-                <>
-                  <textarea
-                    className="block min-w-0 grow bg-amber-200 py-1.5 pr-3 pl-1 text-base text-blue placeholder:text-gray-500 focus:outline-1 sm:text-sm/6"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                </>
-              );
-            }}
-          </form.Field>
-          <form.Field name="status">
+    <div className="card w-full max-w-2xl border border-slate-200 bg-white shadow-sm">
+      <form
+        className="card-body gap-4"
+        onSubmit={(event) => {
+          event.preventDefault();
+          form.handleSubmit();
+        }}
+      >
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <FieldComponent
+            className="sm:col-span-2"
+            form={form}
+            label="Title"
+            name="title"
+          >
+            {(field) => <Input field={field} />}
+          </FieldComponent>
+
+          <FieldComponent
+            className="sm:col-span-2"
+            form={form}
+            label="Description"
+            name="description"
+          >
             {(field) => (
-              <div>
-                <label htmlFor={field.name}>Status</label>
-                <select
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  onBlur={field.handleBlur}
-                >
-                  {statuses.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <textarea
+                id={field.name}
+                name={field.name}
+                className={`textarea textarea-bordered w-full ${
+                  field.state.meta.isTouched &&
+                  field.state.meta.errors.length > 0
+                    ? "textarea-error"
+                    : ""
+                }`}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
             )}
-          </form.Field>
-          <form.Field name="priority">
-            {(field) => {
-              return (
-                <>
-                  <select
-                    className="block min-w-0 grow bg-amber-200 py-1.5 pr-3 pl-1 text-base text-blue placeholder:text-gray-500 focus:outline-1 sm:text-sm/6"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  >
-                    {priorities.map((priority) => (
-                      <option key={priority} value={priority}>
-                        {priority}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              );
-            }}
-          </form.Field>
-          <form.Field name="category">
-            {(field) => {
-              return (
-                <>
-                  <select
-                    className="block min-w-0 grow bg-amber-200 py-1.5 pr-3 pl-1 text-base text-blue placeholder:text-gray-500 focus:outline-1 sm:text-sm/6"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  >
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              );
-            }}
-          </form.Field>
+          </FieldComponent>
+
+          <FieldComponent form={form} label="Status" name="status">
+            {(field) => (
+              <SelectInput
+                field={field}
+                options={statuses}
+                placeholder="Select status ..."
+              />
+            )}
+          </FieldComponent>
+
+          <FieldComponent form={form} label="Priority" name="priority">
+            {(field) => (
+              <SelectInput
+                field={field}
+                options={priorities}
+                placeholder="Select priority ..."
+              />
+            )}
+          </FieldComponent>
+
+          <FieldComponent form={form} label="Category" name="category">
+            {(field) => (
+              <SelectInput
+                field={field}
+                options={categories}
+                placeholder="Select category ..."
+              />
+            )}
+          </FieldComponent>
         </div>
-        <Button>Submit</Button>
+        <div className="card-actions justify-end pt-2">
+          <Button type="submit" loading={mutation.isPending}>
+            {mode === "edit" ? "Save changes" : "Create task"}
+          </Button>
+        </div>
       </form>
     </div>
   );
 }
 
-export default AddEmployeeForm;
+export default CreateTaskForm;

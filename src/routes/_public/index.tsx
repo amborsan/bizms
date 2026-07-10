@@ -21,7 +21,7 @@ function HomePage() {
         </p>
 
         <div className="flex flex-wrap gap-3">
-          <Link to="/login" className="btn btn-primary">
+          <Link to="/signin" className="btn btn-primary">
             Sign in
           </Link>
 

@@ -1,15 +1,45 @@
-     function Input({field}){
+type FormField = {
+  name: string;
+  state: {
+    meta: {
+      errors: Array<unknown>;
+      isTouched: boolean;
+    };
+    value: string;
+  };
+  handleBlur: () => void;
+  handleChange: (value: string) => void;
+};
 
-        return (
+type InputProps = {
+  className?: string;
+  field: FormField;
+  placeholder?: string;
+  type?: string;
+};
 
-        
-     
-     <input className="block min-w-0 grow bg-amber-200 py-1.5 pr-3 pl-1 text-base text-blue placeholder:text-gray-500 focus:outline-1 sm:text-sm/6"
-        value={field.state.value}
-        onBlur={field.handleBlur}
-        onChange={(e) => field.handleChange(e.target.value || [e.target.value])}
-        
-      />
-        )
-    }
-    export default Input;
+function Input({
+  className = "",
+  field,
+  placeholder,
+  type = "text",
+}: InputProps) {
+  const hasError =
+    field.state.meta.isTouched && field.state.meta.errors.length > 0;
+
+  return (
+    <input
+      id={field.name}
+      name={field.name}
+      type={type}
+      className={`input input-bordered w-full ${
+        hasError ? "input-error" : ""
+      } ${className}`}
+      placeholder={placeholder}
+      value={field.state.value}
+      onBlur={field.handleBlur}
+      onChange={(e) => field.handleChange(e.target.value)}
+    />
+  );
+}
+export default Input;

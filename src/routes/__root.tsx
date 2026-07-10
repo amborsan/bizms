@@ -17,12 +17,13 @@ function RootLayout() {
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900">
       <header className="border-b bg-white p-4">
-        <nav className="mx-auto flex max-w-4xl gap-4">
+        <nav className="mx-auto flex max-w-7xl flex-wrap gap-4">
           <Link to="/">Home</Link>
           <Link to="/tasks">Tasks</Link>
           <Link to="/create-task">Create task</Link>
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/employees">Employees</Link>
+          <Link to="/customers">Customers</Link>
           <Link to="/sales">Sales</Link>
           <Link to="/reports">Reports</Link>
           <Link to="/signup"> Signup</Link>
@@ -30,7 +31,7 @@ function RootLayout() {
         </nav>
       </header>
 
-      <main className="mx-auto max-w-4xl p-4">
+      <main className="mx-auto max-w-7xl p-4">
         <Outlet />
       </main>
     </div>
