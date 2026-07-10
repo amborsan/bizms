@@ -10,6 +10,9 @@ const coreNavigationItems = [
   { label: "Customers", to: "/customers" },
 ] as const;
 
+const navItemClassName =
+  "flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content";
+
 export default function Sidebar() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
@@ -23,9 +26,9 @@ export default function Sidebar() {
       initial={{ x: -80 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.4 }}
-      className="flex min-h-screen w-72 shrink-0 flex-col border-r border-base-300 bg-base-100 px-5 py-6 text-base-content"
+      className="sticky top-0 flex h-screen w-72 shrink-0 flex-col border-r border-base-300 bg-base-100 px-5 py-6 text-base-content"
     >
-      <div className="mb-8">
+      <div className="mb-8 shrink-0">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
           Business
         </p>
@@ -35,13 +38,13 @@ export default function Sidebar() {
         </p>
       </div>
 
-      <nav className="flex flex-1 flex-col gap-2">
+      <nav className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
         {coreNavigationItems.map((item) => (
           <Link
             key={item.to}
             to={item.to}
             activeProps={{ className: "bg-primary/10 text-primary" }}
-            className="rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content"
+            className={navItemClassName}
             activeOptions={{ exact: true }}
           >
             {item.label}
@@ -52,7 +55,7 @@ export default function Sidebar() {
           <Link
             to="/dashboard"
             activeProps={{ className: "bg-primary/10 text-primary" }}
-            className="rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content"
+            className={navItemClassName}
             activeOptions={{ exact: true }}
           >
             Dashboard
@@ -60,10 +63,10 @@ export default function Sidebar() {
         )}
 
         {showGuestAuthLinks && (
-          <>
+          <div className="space-y-2 pt-2">
             <Link
               to="/signup"
-              className="rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content"
+              className={navItemClassName}
               activeProps={{ className: "bg-primary/10 text-primary" }}
               activeOptions={{ exact: true }}
             >
@@ -71,17 +74,17 @@ export default function Sidebar() {
             </Link>
             <Link
               to="/signin"
-              className="rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content"
+              className={navItemClassName}
               activeProps={{ className: "bg-primary/10 text-primary" }}
               activeOptions={{ exact: true }}
             >
               Sign in
             </Link>
-          </>
+          </div>
         )}
       </nav>
 
-      <div className="mt-6 border-t border-base-300 pt-5">
+      <div className="mt-6 shrink-0 border-t border-base-300 pt-5">
         <div className="mb-4 flex items-center justify-between rounded-xl bg-base-200 px-4 py-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-base-content/60">

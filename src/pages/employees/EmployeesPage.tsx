@@ -2,20 +2,37 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Outlet, useMatchRoute, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import { useUser } from "@clerk/react";
+import { useMemo, useState } from "react";
 import {
   EditIcon,
   EyeIcon,
+  ListPagination,
   ResourceCard,
   ResourceGrid,
   TrashIcon,
 } from "../../components/molecules/ResourceCard";
 import type { Employee } from "./employee.types";
 
+const EMPLOYEE_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
+const EMPLOYEE_SORT_OPTIONS = [
+  { label: "Name A-Z", value: "name-asc" },
+  { label: "Name Z-A", value: "name-desc" },
+  { label: "Department A-Z", value: "department-asc" },
+  { label: "Department Z-A", value: "department-desc" },
+] as const;
+
+type EmployeeSortValue = (typeof EMPLOYEE_SORT_OPTIONS)[number]["value"];
+
 function EmployeesPage() {
   const matchRoute = useMatchRoute();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isSignedIn, user } = useUser();
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState<EmployeeSortValue>("name-asc");
+  const [pageSize, setPageSize] =
+    useState<(typeof EMPLOYEE_PAGE_SIZE_OPTIONS)[number]>(6);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const childRoute = matchRoute({
     to: "/employees/$employeeId",
@@ -53,9 +70,42 @@ function EmployeesPage() {
     return <div className="alert alert-error">Employees could not load.</div>;
   }
 
-  const employees = data || [];
+  const employees = useMemo(() => (data ?? []) as Employee[], [data]);
   const canManageEmployees =
     isSignedIn && user?.publicMetadata?.role === "admin";
+
+  const filteredEmployees = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+
+    const filtered = employees.filter((employee) => {
+      const matchesSearch =
+        normalizedSearch.length === 0 ||
+        employee.name.toLowerCase().includes(normalizedSearch) ||
+        employee.department.toLowerCase().includes(normalizedSearch) ||
+        employee.email.toLowerCase().includes(normalizedSearch);
+
+      return matchesSearch;
+    });
+
+    return filtered.sort((left, right) => {
+      if (sortBy === "name-asc") return left.name.localeCompare(right.name);
+      if (sortBy === "name-desc") return right.name.localeCompare(left.name);
+      if (sortBy === "department-asc")
+        return left.department.localeCompare(right.department);
+
+      return right.department.localeCompare(left.department);
+    });
+  }, [employees, search, sortBy]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredEmployees.length / pageSize),
+  );
+  const safePage = Math.min(currentPage, totalPages);
+  const pagedEmployees = filteredEmployees.slice(
+    (safePage - 1) * pageSize,
+    safePage * pageSize,
+  );
 
   return (
     <section className="space-y-6 rounded-xl border border-base-300 bg-base-100 p-5 shadow-sm sm:p-6">
@@ -73,10 +123,10 @@ function EmployeesPage() {
         </div>
         <div className="rounded-lg border border-base-300 bg-base-200 px-4 py-3 text-right shadow-sm">
           <p className="text-2xl font-bold text-base-content">
-            {employees.length}
+            {filteredEmployees.length}
           </p>
           <p className="text-xs font-medium uppercase text-base-content/60">
-            Total employees
+            Filtered employees
           </p>
         </div>
         {canManageEmployees && (
@@ -90,11 +140,64 @@ function EmployeesPage() {
         )}
       </div>
 
+      <div className="grid gap-4 rounded-2xl border border-base-300 bg-base-200 p-4 lg:grid-cols-4">
+        <label className="form-control lg:col-span-2">
+          <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
+            Search name or department
+          </span>
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search employees..."
+            className="input input-bordered w-full"
+          />
+        </label>
+
+        <label className="form-control">
+          <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
+            Sort by
+          </span>
+          <select
+            value={sortBy}
+            onChange={(event) =>
+              setSortBy(event.target.value as EmployeeSortValue)
+            }
+            className="select select-bordered w-full"
+          >
+            {EMPLOYEE_SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="form-control">
+          <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
+            Page size
+          </span>
+          <select
+            value={pageSize}
+            onChange={(event) =>
+              setPageSize(Number(event.target.value) as 6 | 12 | 24)
+            }
+            className="select select-bordered w-full"
+          >
+            {EMPLOYEE_PAGE_SIZE_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option} per page
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
       <ResourceGrid
-        isEmpty={employees.length === 0}
+        isEmpty={pagedEmployees.length === 0}
         emptyMessage="No employees found."
       >
-        {employees.map((employee) => (
+        {pagedEmployees.map((employee) => (
           <ResourceCard
             key={employee.id}
             title={employee.name}
@@ -150,6 +253,12 @@ function EmployeesPage() {
           />
         ))}
       </ResourceGrid>
+
+      <ListPagination
+        currentPage={safePage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </section>
   );
 }

@@ -2,20 +2,39 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Outlet, useMatchRoute, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import { useUser } from "@clerk/react";
+import { useMemo, useState } from "react";
 import {
   EditIcon,
   EyeIcon,
+  ListPagination,
   ResourceCard,
   ResourceGrid,
   TrashIcon,
 } from "../../components/molecules/ResourceCard";
 import type { Customer } from "./customer.types";
 
+const CUSTOMER_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
+const CUSTOMER_SORT_OPTIONS = [
+  { label: "Title A-Z", value: "title-asc" },
+  { label: "Title Z-A", value: "title-desc" },
+  { label: "Contact A-Z", value: "contact-asc" },
+  { label: "Contact Z-A", value: "contact-desc" },
+  { label: "Email A-Z", value: "email-asc" },
+  { label: "Email Z-A", value: "email-desc" },
+] as const;
+
+type CustomerSortValue = (typeof CUSTOMER_SORT_OPTIONS)[number]["value"];
+
 function CustomersPage() {
   const matchRoute = useMatchRoute();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isSignedIn, user } = useUser();
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState<CustomerSortValue>("title-asc");
+  const [pageSize, setPageSize] =
+    useState<(typeof CUSTOMER_PAGE_SIZE_OPTIONS)[number]>(6);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const childRoute = matchRoute({
     to: "/customers/$customerId",
@@ -53,9 +72,45 @@ function CustomersPage() {
     return <div className="alert alert-error">Customers could not load.</div>;
   }
 
-  const customers = data || [];
+  const customers = useMemo(() => (data ?? []) as Customer[], [data]);
   const canManageCustomers =
     isSignedIn && user?.publicMetadata?.role === "admin";
+
+  const filteredCustomers = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+
+    const filtered = customers.filter((customer) => {
+      const matchesSearch =
+        normalizedSearch.length === 0 ||
+        customer.Title.toLowerCase().includes(normalizedSearch) ||
+        customer.contatctperson.toLowerCase().includes(normalizedSearch) ||
+        customer.email.toLowerCase().includes(normalizedSearch);
+
+      return matchesSearch;
+    });
+
+    return filtered.sort((left, right) => {
+      if (sortBy === "title-asc") return left.Title.localeCompare(right.Title);
+      if (sortBy === "title-desc") return right.Title.localeCompare(left.Title);
+      if (sortBy === "contact-asc")
+        return left.contatctperson.localeCompare(right.contatctperson);
+      if (sortBy === "contact-desc")
+        return right.contatctperson.localeCompare(left.contatctperson);
+      if (sortBy === "email-asc") return left.email.localeCompare(right.email);
+
+      return right.email.localeCompare(left.email);
+    });
+  }, [customers, search, sortBy]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredCustomers.length / pageSize),
+  );
+  const safePage = Math.min(currentPage, totalPages);
+  const pagedCustomers = filteredCustomers.slice(
+    (safePage - 1) * pageSize,
+    safePage * pageSize,
+  );
 
   return (
     <section className="space-y-6 rounded-xl border border-base-300 bg-base-100 p-5 shadow-sm sm:p-6">
@@ -73,10 +128,10 @@ function CustomersPage() {
         </div>
         <div className="rounded-lg border border-base-300 bg-base-200 px-4 py-3 text-right shadow-sm">
           <p className="text-2xl font-bold text-base-content">
-            {customers.length}
+            {filteredCustomers.length}
           </p>
           <p className="text-xs font-medium uppercase text-base-content/60">
-            Total customers
+            Filtered customers
           </p>
         </div>
         {canManageCustomers && (
@@ -90,11 +145,64 @@ function CustomersPage() {
         )}
       </div>
 
+      <div className="grid gap-4 rounded-2xl border border-base-300 bg-base-200 p-4 lg:grid-cols-4">
+        <label className="form-control lg:col-span-2">
+          <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
+            Search title or contact
+          </span>
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search customers..."
+            className="input input-bordered w-full"
+          />
+        </label>
+
+        <label className="form-control">
+          <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
+            Sort by
+          </span>
+          <select
+            value={sortBy}
+            onChange={(event) =>
+              setSortBy(event.target.value as CustomerSortValue)
+            }
+            className="select select-bordered w-full"
+          >
+            {CUSTOMER_SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="form-control">
+          <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
+            Page size
+          </span>
+          <select
+            value={pageSize}
+            onChange={(event) =>
+              setPageSize(Number(event.target.value) as 6 | 12 | 24)
+            }
+            className="select select-bordered w-full"
+          >
+            {CUSTOMER_PAGE_SIZE_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option} per page
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
       <ResourceGrid
-        isEmpty={customers.length === 0}
+        isEmpty={pagedCustomers.length === 0}
         emptyMessage="No customers found."
       >
-        {customers.map((customer) => (
+        {pagedCustomers.map((customer) => (
           <ResourceCard
             key={customer.id}
             title={customer.Title}
@@ -146,6 +254,12 @@ function CustomersPage() {
           />
         ))}
       </ResourceGrid>
+
+      <ListPagination
+        currentPage={safePage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </section>
   );
 }
