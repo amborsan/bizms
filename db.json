@@ -39,10 +39,16 @@
   ],
   "employees": [
     {
-      "id": "1",
       "name": "Feras Hifean",
-      "department": "equipment-maintenance",
-      "email": "feras@chipmasters.com"
+      "department": "Equipment-maintenance",
+      "email": "feras@chipmasters.com",
+      "id": "1"
+    },
+    {
+      "name": "aaaaaaa",
+      "department": "ssssss",
+      "email": "ddddali@dcdddd.org",
+      "id": "pmavkKFUzbA"
     }
   ],
   "customers": [

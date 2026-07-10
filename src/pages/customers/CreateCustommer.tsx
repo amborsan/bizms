@@ -1,7 +1,10 @@
-import { useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import { useForm } from "@tanstack/react-form";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
+import Button from "../../components/atoms/Button/Button";
+import FieldComponent from "../../components/atoms/forms/FieldComponent";
+import Input from "../../components/atoms/forms/Input";
 import type { Customer, CustomerFormValues } from "./customer.types";
 
 const customerSchema = z.object({
@@ -18,110 +21,92 @@ type CustomerFormProps = {
 };
 
 function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
-  const [formData, setFormData] = useState<CustomerFormValues>({
-    Title: customer.Title,
-    address: customer.address,
-    contatctperson: customer.contatctperson,
-    email: customer.email,
-    phonenumber: customer.phonenumber,
+  const mutation = useMutation({
+    mutationFn: async (customerValues: CustomerFormValues) => {
+      const { data } = await axios.put<Customer>(
+        `http://localhost:3001/customers/${customer.id}`,
+        {
+          ...customerValues,
+          id: customer.id,
+        },
+      );
+
+      return data;
+    },
+    onSuccess: (updatedCustomer) => {
+      onSuccess(updatedCustomer);
+    },
   });
-  const [error, setError] = useState("");
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const result = customerSchema.safeParse(formData);
-
-    if (!result.success) {
-      setError(result.error.issues[0].message);
-      return;
-    }
-
-    setError("");
-
-    const { data } = await axios.put<Customer>(
-      `http://localhost:3001/customers/${customer.id}`,
-      {
-        ...result.data,
-        id: customer.id,
-      },
-    );
-
-    onSuccess(data);
-  }
+  const form = useForm({
+    defaultValues: {
+      Title: customer.Title,
+      address: customer.address,
+      contatctperson: customer.contatctperson,
+      email: customer.email,
+      phonenumber: customer.phonenumber,
+    },
+    validators: {
+      onChange: customerSchema,
+      onSubmit: customerSchema,
+    },
+    onSubmit: ({ value }) => {
+      mutation.mutate(customerSchema.parse(value));
+    },
+  });
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="card w-full max-w-2xl border border-slate-200 bg-white shadow-sm"
-    >
-      <div className="card-body gap-4">
-        {error && <div className="alert alert-error">{error}</div>}
-
-        <label className="form-control w-full">
-          <span className="label-text mb-1">Company title</span>
-          <input
+    <div className="card w-full max-w-2xl border border-base-300 bg-base-100 shadow-sm">
+      <form
+        className="card-body gap-4"
+        onSubmit={(event) => {
+          event.preventDefault();
+          form.handleSubmit();
+        }}
+      >
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <FieldComponent
+            className="sm:col-span-2"
+            form={form}
+            label="Company title"
             name="Title"
-            value={formData.Title}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-          />
-        </label>
+          >
+            {(field) => <Input field={field} />}
+          </FieldComponent>
 
-        <label className="form-control w-full">
-          <span className="label-text mb-1">Address</span>
-          <input
+          <FieldComponent
+            className="sm:col-span-2"
+            form={form}
+            label="Address"
             name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-          />
-        </label>
+          >
+            {(field) => <Input field={field} />}
+          </FieldComponent>
 
-        <label className="form-control w-full">
-          <span className="label-text mb-1">Contact person</span>
-          <input
+          <FieldComponent
+            form={form}
+            label="Contact person"
             name="contatctperson"
-            value={formData.contatctperson}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-          />
-        </label>
+          >
+            {(field) => <Input field={field} />}
+          </FieldComponent>
 
-        <label className="form-control w-full">
-          <span className="label-text mb-1">Email</span>
-          <input
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-          />
-        </label>
+          <FieldComponent form={form} label="Email" name="email">
+            {(field) => <Input field={field} type="email" />}
+          </FieldComponent>
 
-        <label className="form-control w-full">
-          <span className="label-text mb-1">Phone number</span>
-          <input
-            name="phonenumber"
-            value={formData.phonenumber}
-            onChange={handleChange}
-            className="input input-bordered w-full"
-          />
-        </label>
+          <FieldComponent form={form} label="Phone number" name="phonenumber">
+            {(field) => <Input field={field} type="tel" />}
+          </FieldComponent>
+        </div>
 
         <div className="card-actions justify-end">
-          <button type="submit" className="btn btn-primary">
+          <Button type="submit" loading={mutation.isPending}>
             Save changes
-          </button>
+          </Button>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
 

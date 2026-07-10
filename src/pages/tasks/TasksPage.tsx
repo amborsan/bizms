@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Outlet, useMatchRoute, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
+import { useUser } from "@clerk/react";
 import {
   EditIcon,
   EyeIcon,
@@ -15,6 +16,7 @@ function TasksPage() {
   const matchRoute = useMatchRoute();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { isSignedIn, user } = useUser();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
@@ -49,25 +51,35 @@ function TasksPage() {
   }
 
   const tasks = data as Task[];
+  const canManageTasks = isSignedIn && user?.publicMetadata?.role === "admin";
 
   return (
-    <section className="space-y-6 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm sm:p-6">
-      <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-end sm:justify-between">
+    <section className="space-y-6 rounded-xl border border-base-300 bg-base-100 p-5 shadow-sm sm:p-6">
+      <div className="flex flex-col gap-4 border-b border-base-300 pb-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+          <p className="text-xs font-semibold uppercase tracking-wide text-primary">
             Operations
           </p>
-          <h1 className="mt-1 text-3xl font-bold text-slate-950">Tasks</h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+          <h1 className="mt-1 text-3xl font-bold text-base-content">Tasks</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-base-content/70">
             Review open work, priorities, and task ownership details.
           </p>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-right shadow-sm">
-          <p className="text-2xl font-bold text-slate-950">{tasks.length}</p>
-          <p className="text-xs font-medium uppercase text-slate-500">
+        <div className="rounded-lg border border-base-300 bg-base-200 px-4 py-3 text-right shadow-sm">
+          <p className="text-2xl font-bold text-base-content">{tasks.length}</p>
+          <p className="text-xs font-medium uppercase text-base-content/60">
             Total tasks
           </p>
         </div>
+        {canManageTasks && (
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => navigate({ to: "/create-task" })}
+          >
+            Add task
+          </button>
+        )}
       </div>
 
       <ResourceGrid isEmpty={tasks.length === 0} emptyMessage="No tasks found.">
@@ -107,22 +119,26 @@ function TasksPage() {
                   }),
                 variant: "primary",
               },
-              {
-                icon: <EditIcon />,
-                label: "Edit task",
-                onClick: () =>
-                  navigate({
-                    to: "/tasks/$taskId/edit",
-                    params: { taskId: task.id },
-                  }),
-                variant: "ghost",
-              },
-              {
-                icon: <TrashIcon />,
-                label: "Delete task",
-                onClick: () => deleteMutation.mutate(task.id),
-                variant: "error",
-              },
+              ...(canManageTasks
+                ? [
+                    {
+                      icon: <EditIcon />,
+                      label: "Edit task",
+                      onClick: () =>
+                        navigate({
+                          to: "/tasks/$taskId/edit",
+                          params: { taskId: task.id },
+                        }),
+                      variant: "ghost" as const,
+                    },
+                    {
+                      icon: <TrashIcon />,
+                      label: "Delete task",
+                      onClick: () => deleteMutation.mutate(task.id),
+                      variant: "error" as const,
+                    },
+                  ]
+                : []),
             ]}
           />
         ))}

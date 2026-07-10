@@ -23,6 +23,7 @@ import { Route as ProtectedReportsRouteImport } from './routes/_protected/report
 import { Route as ProtectedProductsRouteImport } from './routes/_protected/products'
 import { Route as ProtectedEmployeesRouteImport } from './routes/_protected/employees'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as ProtectedCreateEmployeeRouteImport } from './routes/_protected/create-employee'
 import { Route as PublicTasksTaskIdRouteImport } from './routes/_public/tasks.$taskId'
 import { Route as PublicCustomersCustomerIdRouteImport } from './routes/_public/customers.$customerId'
 import { Route as ProtectedEmployeesEmployeeIdRouteImport } from './routes/_protected/employees.$employeeId'
@@ -98,6 +99,11 @@ const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
+const ProtectedCreateEmployeeRoute = ProtectedCreateEmployeeRouteImport.update({
+  id: '/create-employee',
+  path: '/create-employee',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
 const PublicTasksTaskIdRoute = PublicTasksTaskIdRouteImport.update({
   id: '/$taskId',
   path: '/$taskId',
@@ -135,6 +141,7 @@ const ProtectedEmployeesEmployeeIdEditRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
+  '/create-employee': typeof ProtectedCreateEmployeeRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/employees': typeof ProtectedEmployeesRouteWithChildren
   '/products': typeof ProtectedProductsRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
+  '/create-employee': typeof ProtectedCreateEmployeeRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/employees': typeof ProtectedEmployeesRouteWithChildren
   '/products': typeof ProtectedProductsRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
+  '/_protected/create-employee': typeof ProtectedCreateEmployeeRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/employees': typeof ProtectedEmployeesRouteWithChildren
   '/_protected/products': typeof ProtectedProductsRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/create-employee'
     | '/dashboard'
     | '/employees'
     | '/products'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/create-employee'
     | '/dashboard'
     | '/employees'
     | '/products'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_protected'
     | '/_public'
+    | '/_protected/create-employee'
     | '/_protected/dashboard'
     | '/_protected/employees'
     | '/_protected/products'
@@ -366,6 +378,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
+    '/_protected/create-employee': {
+      id: '/_protected/create-employee'
+      path: '/create-employee'
+      fullPath: '/create-employee'
+      preLoaderRoute: typeof ProtectedCreateEmployeeRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
     '/_public/tasks/$taskId': {
       id: '/_public/tasks/$taskId'
       path: '/$taskId'
@@ -439,6 +458,7 @@ const ProtectedEmployeesRouteWithChildren =
   ProtectedEmployeesRoute._addFileChildren(ProtectedEmployeesRouteChildren)
 
 interface ProtectedRouteRouteChildren {
+  ProtectedCreateEmployeeRoute: typeof ProtectedCreateEmployeeRoute
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedEmployeesRoute: typeof ProtectedEmployeesRouteWithChildren
   ProtectedProductsRoute: typeof ProtectedProductsRoute
@@ -447,6 +467,7 @@ interface ProtectedRouteRouteChildren {
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
+  ProtectedCreateEmployeeRoute: ProtectedCreateEmployeeRoute,
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedEmployeesRoute: ProtectedEmployeesRouteWithChildren,
   ProtectedProductsRoute: ProtectedProductsRoute,

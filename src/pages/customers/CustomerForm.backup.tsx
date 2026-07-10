@@ -47,7 +47,7 @@ function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
     setError("");
 
     const { data } = await axios.put<Customer>(
-      `http://localhost:3001/custommers/${customer.id}`,
+      `http://localhost:3001/customers/${customer.id}`,
       {
         ...result.data,
         id: customer.id,
@@ -60,7 +60,7 @@ function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="card w-full max-w-2xl border border-base-300 bg-base-100 shadow-sm"
+      className="card w-full max-w-2xl border border-slate-200 bg-white shadow-sm"
     >
       <div className="card-body gap-4">
         {error && <div className="alert alert-error">{error}</div>}

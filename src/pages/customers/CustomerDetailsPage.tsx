@@ -55,16 +55,16 @@ function CustomerDetailsPage() {
         Back to customers
       </Link>
 
-      <section className="space-y-6 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm sm:p-6">
-        <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-end sm:justify-between">
+      <section className="space-y-6 rounded-xl border border-base-300 bg-base-100 p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-4 border-b border-base-300 pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary">
               Customer details
             </p>
-            <h1 className="mt-1 text-3xl font-bold text-slate-950">
+            <h1 className="mt-1 text-3xl font-bold text-base-content">
               {customer.Title}
             </h1>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
+            <p className="mt-2 text-sm leading-6 text-base-content/70">
               View customer address and contact information.
             </p>
           </div>

@@ -86,7 +86,7 @@ function CreateTaskForm({
     },
   });
   return (
-    <div className="card w-full max-w-2xl border border-slate-200 bg-white shadow-sm">
+    <div className="card w-full max-w-2xl border border-base-300 bg-base-100 shadow-sm">
       <form
         className="card-body gap-4"
         onSubmit={(event) => {

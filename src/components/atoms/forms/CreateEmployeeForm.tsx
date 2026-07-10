@@ -2,10 +2,13 @@ import { useForm } from "@tanstack/react-form";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import Button from "../../components/atoms/Button/Button";
-import FieldComponent from "../../components/atoms/forms/FieldComponent";
-import Input from "../../components/atoms/forms/Input";
-import type { Employee, EmployeeFormValues } from "./employee.types";
+import Button from "../Button/Button";
+import FieldComponent from "./FieldComponent";
+import Input from "./Input";
+import type {
+  Employee,
+  EmployeeFormValues,
+} from "../../../pages/employees/employee.types";
 
 const employeeSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -13,34 +16,30 @@ const employeeSchema = z.object({
   email: z.string().email("Please enter a valid email"),
 });
 
-type EmployeeFormProps = {
-  employee: Employee;
+type CreateEmployeeFormProps = {
   onSuccess: (employee: Employee) => void;
 };
 
-function EmployeeForm({ employee, onSuccess }: EmployeeFormProps) {
+function CreateEmployeeForm({ onSuccess }: CreateEmployeeFormProps) {
   const mutation = useMutation({
     mutationFn: async (employeeValues: EmployeeFormValues) => {
-      const { data } = await axios.put<Employee>(
-        `http://localhost:3001/employees/${employee.id}`,
-        {
-          ...employeeValues,
-          id: employee.id,
-        },
+      const { data } = await axios.post<Employee>(
+        "http://localhost:3001/employees",
+        employeeValues,
       );
 
       return data;
     },
-    onSuccess: (updatedEmployee) => {
-      onSuccess(updatedEmployee);
+    onSuccess: (employee) => {
+      onSuccess(employee);
     },
   });
 
   const form = useForm({
     defaultValues: {
-      name: employee.name,
-      department: employee.department,
-      email: employee.email,
+      name: "",
+      department: "",
+      email: "",
     },
     validators: {
       onChange: employeeSchema,
@@ -76,7 +75,7 @@ function EmployeeForm({ employee, onSuccess }: EmployeeFormProps) {
 
         <div className="card-actions justify-end">
           <Button type="submit" loading={mutation.isPending}>
-            Save changes
+            Create employee
           </Button>
         </div>
       </form>
@@ -84,4 +83,4 @@ function EmployeeForm({ employee, onSuccess }: EmployeeFormProps) {
   );
 }
 
-export default EmployeeForm;
+export default CreateEmployeeForm;

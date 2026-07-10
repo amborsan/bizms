@@ -1,37 +1,128 @@
+import { SignInButton, UserButton, useAuth, useUser } from "@clerk/react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useTheme } from "../../../context/ThemeContext";
+
+const coreNavigationItems = [
+  { label: "Home", to: "/" },
+  { label: "Tasks", to: "/tasks" },
+  { label: "Employees", to: "/employees" },
+  { label: "Customers", to: "/customers" },
+] as const;
 
 export default function Sidebar() {
-  /*   const menu = [
-    { label: "Dashboard", path: routes.dashboard },
-    { label: "Employees", path: routes.employees },
-    { label: "Products", path: routes.products },
-    { label: "Sales", path: routes.sales },
-    { label: "Reports", path: routes.reports },
-  ] as const; */
+  const { isSignedIn } = useAuth();
+  const { user } = useUser();
+  const { theme, toggleTheme } = useTheme();
+  const isAdmin = user?.publicMetadata?.role === "admin";
+  const showDashboard = isSignedIn || isAdmin;
+  const showGuestAuthLinks = !isSignedIn;
 
   return (
     <motion.aside
       initial={{ x: -80 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-64 bg-base-200 min-h-screen p-6"
+      className="flex min-h-screen w-72 shrink-0 flex-col border-r border-base-300 bg-base-100 px-5 py-6 text-base-content"
     >
-      <h1 className="text-2xl font-bold mb-8">BMS</h1>
+      <div className="mb-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+          Business
+        </p>
+        <h1 className="mt-2 text-2xl font-bold text-base-content">BMS</h1>
+        <p className="mt-2 text-sm leading-6 text-base-content/70">
+          Business management system navigation.
+        </p>
+      </div>
 
-      <ul className="menu gap-2">
-        {/*        {menu.map((item) => (
-          <li key={item.path}>
+      <nav className="flex flex-1 flex-col gap-2">
+        {coreNavigationItems.map((item) => (
+          <Link
+            key={item.to}
+            to={item.to}
+            activeProps={{ className: "bg-primary/10 text-primary" }}
+            className="rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content"
+            activeOptions={{ exact: true }}
+          >
+            {item.label}
+          </Link>
+        ))}
+
+        {showDashboard && (
+          <Link
+            to="/dashboard"
+            activeProps={{ className: "bg-primary/10 text-primary" }}
+            className="rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content"
+            activeOptions={{ exact: true }}
+          >
+            Dashboard
+          </Link>
+        )}
+
+        {showGuestAuthLinks && (
+          <>
             <Link
-              to={item.path}
-              activeProps={{ className: "active" }}
+              to="/signup"
+              className="rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content"
+              activeProps={{ className: "bg-primary/10 text-primary" }}
               activeOptions={{ exact: true }}
             >
-              {item.label}
+              Sign up
             </Link>
-          </li>
-        ))} */}
-      </ul>
+            <Link
+              to="/signin"
+              className="rounded-lg px-4 py-3 text-sm font-medium text-base-content/80 transition hover:bg-base-200 hover:text-base-content"
+              activeProps={{ className: "bg-primary/10 text-primary" }}
+              activeOptions={{ exact: true }}
+            >
+              Sign in
+            </Link>
+          </>
+        )}
+      </nav>
+
+      <div className="mt-6 border-t border-base-300 pt-5">
+        <div className="mb-4 flex items-center justify-between rounded-xl bg-base-200 px-4 py-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-base-content/60">
+              Theme
+            </p>
+            <p className="text-sm font-medium text-base-content">
+              {theme === "dark" ? "Dark" : "Light"}
+            </p>
+          </div>
+          <label className="flex cursor-pointer items-center gap-3">
+            <span className="text-xs font-medium text-base-content/60">
+              Light
+            </span>
+            <input
+              type="checkbox"
+              className="toggle toggle-primary"
+              checked={theme === "dark"}
+              onChange={toggleTheme}
+            />
+            <span className="text-xs font-medium text-base-content/60">
+              Dark
+            </span>
+          </label>
+        </div>
+
+        {isSignedIn ? (
+          <div className="flex items-center justify-between gap-3 rounded-xl bg-base-200 px-4 py-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-base-content/60">
+                Account
+              </p>
+              <p className="text-sm font-medium text-base-content">Signed in</p>
+            </div>
+            <UserButton />
+          </div>
+        ) : (
+          <SignInButton mode="modal" forceRedirectUrl="/">
+            <button className="btn btn-primary w-full">Sign in</button>
+          </SignInButton>
+        )}
+      </div>
     </motion.aside>
   );
 }

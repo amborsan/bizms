@@ -46,12 +46,12 @@ function EditCustomerPage() {
         Back to customers
       </Link>
 
-      <section className="space-y-6 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm sm:p-6">
-        <div className="border-b border-slate-200 pb-5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+      <section className="space-y-6 rounded-xl border border-base-300 bg-base-100 p-5 shadow-sm sm:p-6">
+        <div className="border-b border-base-300 pb-5">
+          <p className="text-xs font-semibold uppercase tracking-wide text-primary">
             Edit customer
           </p>
-          <h1 className="mt-1 text-3xl font-bold text-slate-950">
+          <h1 className="mt-1 text-3xl font-bold text-base-content">
             Edit {customer.Title}
           </h1>
         </div>

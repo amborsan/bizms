@@ -13,15 +13,15 @@ function RouteComponent() {
   const queryClient = useQueryClient();
 
   return (
-    <section className="space-y-6 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm sm:p-6">
-      <div className="border-b border-slate-200 pb-5">
-        <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+    <section className="space-y-6 rounded-xl border border-base-300 bg-base-100 p-5 shadow-sm sm:p-6">
+      <div className="border-b border-base-300 pb-5">
+        <p className="text-xs font-semibold uppercase tracking-wide text-primary">
           New customer
         </p>
-        <h1 className="mt-1 text-3xl font-bold text-slate-950">
+        <h1 className="mt-1 text-3xl font-bold text-base-content">
           Add a new customer
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-base-content/70">
           Capture the company name, contact person, and contact details.
         </p>
       </div>
