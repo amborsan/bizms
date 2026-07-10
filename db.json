@@ -35,6 +35,141 @@
       "priority": "High",
       "createdat": "7/10/2026",
       "id": "nmQrqJNXRIs"
+    },
+    {
+      "id": "task-001",
+      "title": "Invoice review",
+      "description": "Check the weekly invoice batch for missing entries.",
+      "status": "Open",
+      "createdat": "7/10/2026",
+      "category": "Finance",
+      "priority": "Medium"
+    },
+    {
+      "id": "task-002",
+      "title": "Repair estimate",
+      "description": "Prepare a repair estimate for the damaged equipment.",
+      "status": "Pending",
+      "createdat": "7/10/2026",
+      "category": "Support",
+      "priority": "High"
+    },
+    {
+      "id": "task-003",
+      "title": "Stock count",
+      "description": "Count the warehouse stock and update the inventory log.",
+      "status": "Completed",
+      "createdat": "7/09/2026",
+      "category": "Operations",
+      "priority": "Low"
+    },
+    {
+      "id": "task-004",
+      "title": "Customer callback",
+      "description": "Return a missed call and confirm the request details.",
+      "status": "Open",
+      "createdat": "7/09/2026",
+      "category": "Customer Service",
+      "priority": "Medium"
+    },
+    {
+      "id": "task-005",
+      "title": "Supplier follow-up",
+      "description": "Follow up with the supplier about the delayed shipment.",
+      "status": "In progress",
+      "createdat": "7/08/2026",
+      "category": "Procurement",
+      "priority": "High"
+    },
+    {
+      "id": "task-006",
+      "title": "System audit",
+      "description": "Review recent system changes for inconsistencies.",
+      "status": "Pending",
+      "createdat": "7/08/2026",
+      "category": "IT",
+      "priority": "High"
+    },
+    {
+      "id": "task-007",
+      "title": "Delivery routing",
+      "description": "Optimize routes for the next delivery cycle.",
+      "status": "Open",
+      "createdat": "7/07/2026",
+      "category": "Logistics",
+      "priority": "Medium"
+    },
+    {
+      "id": "task-008",
+      "title": "Report drafting",
+      "description": "Draft the monthly operations report.",
+      "status": "Completed",
+      "createdat": "7/07/2026",
+      "category": "Administration",
+      "priority": "Low"
+    },
+    {
+      "id": "task-009",
+      "title": "Site inspection",
+      "description": "Inspect the site for safety and maintenance issues.",
+      "status": "Pending",
+      "createdat": "7/06/2026",
+      "category": "Facilities",
+      "priority": "High"
+    },
+    {
+      "id": "task-010",
+      "title": "Team briefing",
+      "description": "Run a short briefing before the morning shift.",
+      "status": "Open",
+      "createdat": "7/06/2026",
+      "category": "Operations",
+      "priority": "Low"
+    },
+    {
+      "id": "task-011",
+      "title": "Vendor approval",
+      "description": "Review and approve the vendor onboarding documents.",
+      "status": "In progress",
+      "createdat": "7/05/2026",
+      "category": "Procurement",
+      "priority": "Medium"
+    },
+    {
+      "id": "task-012",
+      "title": "Warranty check",
+      "description": "Verify warranty status for returned devices.",
+      "status": "Completed",
+      "createdat": "7/05/2026",
+      "category": "Support",
+      "priority": "Medium"
+    },
+    {
+      "id": "task-013",
+      "title": "Data cleanup",
+      "description": "Remove duplicate records from the customer list.",
+      "status": "Open",
+      "createdat": "7/04/2026",
+      "category": "IT",
+      "priority": "Low"
+    },
+    {
+      "id": "task-014",
+      "title": "Shift planning",
+      "description": "Prepare the schedule for the next week.",
+      "status": "Pending",
+      "createdat": "7/04/2026",
+      "category": "Administration",
+      "priority": "Medium"
+    },
+    {
+      "id": "task-015",
+      "title": "Quality review",
+      "description": "Check completed work against quality standards.",
+      "status": "Completed",
+      "createdat": "7/03/2026",
+      "category": "Quality",
+      "priority": "High"
     }
   ],
   "employees": [
@@ -49,6 +184,96 @@
       "department": "ssssss",
       "email": "ddddali@dcdddd.org",
       "id": "pmavkKFUzbA"
+    },
+    {
+      "id": "employee-001",
+      "name": "Amina Yusuf",
+      "department": "Operations",
+      "email": "amina.yusuf@bizms.com"
+    },
+    {
+      "id": "employee-002",
+      "name": "Jonas Reed",
+      "department": "Support",
+      "email": "jonas.reed@bizms.com"
+    },
+    {
+      "id": "employee-003",
+      "name": "Sara Klein",
+      "department": "Finance",
+      "email": "sara.klein@bizms.com"
+    },
+    {
+      "id": "employee-004",
+      "name": "Daniel Moore",
+      "department": "Logistics",
+      "email": "daniel.moore@bizms.com"
+    },
+    {
+      "id": "employee-005",
+      "name": "Mia Hassan",
+      "department": "Customer Service",
+      "email": "mia.hassan@bizms.com"
+    },
+    {
+      "id": "employee-006",
+      "name": "Omar Ali",
+      "department": "IT",
+      "email": "omar.ali@bizms.com"
+    },
+    {
+      "id": "employee-007",
+      "name": "Lina Carter",
+      "department": "Administration",
+      "email": "lina.carter@bizms.com"
+    },
+    {
+      "id": "employee-008",
+      "name": "Ethan Brooks",
+      "department": "Procurement",
+      "email": "ethan.brooks@bizms.com"
+    },
+    {
+      "id": "employee-009",
+      "name": "Nora Patel",
+      "department": "Quality",
+      "email": "nora.patel@bizms.com"
+    },
+    {
+      "id": "employee-010",
+      "name": "Hassan Ahmed",
+      "department": "Maintenance",
+      "email": "hassan.ahmed@bizms.com"
+    },
+    {
+      "id": "employee-011",
+      "name": "Fatima Noor",
+      "department": "Operations",
+      "email": "fatima.noor@bizms.com"
+    },
+    {
+      "id": "employee-012",
+      "name": "Lucas Evans",
+      "department": "Support",
+      "email": "lucas.evans@bizms.com"
+    },
+    {
+      "id": "employee-013",
+      "name": "Grace Lee",
+      "department": "Finance",
+      "email": "grace.lee@bizms.com"
+    },
+    {
+      "id": "employee-014",
+      "name": "Noah Smith",
+      "department": "Logistics",
+      "email": "noah.smith@bizms.com"
+    },
+    {
+      "id": "employee-015",
+      "name": "Zara Khan",
+      "department": "Customer Service",
+      "email": "zara.khan@bizms.com"
     }
   ],
   "customers": [
@@ -67,6 +292,126 @@
       "email": "bbbbbbbbbbb@bbb.ccc",
       "phonenumber": "123165654",
       "id": "HvUwXbF4USQ"
+    },
+    {
+      "id": "customer-001",
+      "Title": "Northwind Trading",
+      "address": "12 Market Street, London",
+      "contatctperson": "Alice Morgan",
+      "email": "alice.morgan@northwind.test",
+      "phonenumber": "0205550101"
+    },
+    {
+      "id": "customer-002",
+      "Title": "Blue Peak Supplies",
+      "address": "88 Industrial Road, Manchester",
+      "contatctperson": "Brian Scott",
+      "email": "brian.scott@bluepeak.test",
+      "phonenumber": "01615550102"
+    },
+    {
+      "id": "customer-003",
+      "Title": "Atlas Retail Group",
+      "address": "14 King Avenue, Birmingham",
+      "contatctperson": "Clara Hughes",
+      "email": "clara.hughes@atlasretail.test",
+      "phonenumber": "01215550103"
+    },
+    {
+      "id": "customer-004",
+      "Title": "Sunrise Logistics",
+      "address": "7 Dock Lane, Bristol",
+      "contatctperson": "David Green",
+      "email": "david.green@sunrise.test",
+      "phonenumber": "01175550104"
+    },
+    {
+      "id": "customer-005",
+      "Title": "Metro Office Co",
+      "address": "99 High Road, Leeds",
+      "contatctperson": "Emma White",
+      "email": "emma.white@metrooffice.test",
+      "phonenumber": "01135550105"
+    },
+    {
+      "id": "customer-006",
+      "Title": "Prime Health Partners",
+      "address": "22 Wellness Park, Glasgow",
+      "contatctperson": "Farah Ali",
+      "email": "farah.ali@primehealth.test",
+      "phonenumber": "01415550106"
+    },
+    {
+      "id": "customer-007",
+      "Title": "Summit Engineering",
+      "address": "45 Tech Park, Sheffield",
+      "contatctperson": "George King",
+      "email": "george.king@summiteng.test",
+      "phonenumber": "01145550107"
+    },
+    {
+      "id": "customer-008",
+      "Title": "Cedar Food Services",
+      "address": "3 Orchard Way, Nottingham",
+      "contatctperson": "Hana Yusuf",
+      "email": "hana.yusuf@cedarfood.test",
+      "phonenumber": "01155550108"
+    },
+    {
+      "id": "customer-009",
+      "Title": "Aurora Fashion House",
+      "address": "51 Style Street, Liverpool",
+      "contatctperson": "Ian Clark",
+      "email": "ian.clark@aurorafashion.test",
+      "phonenumber": "01515550109"
+    },
+    {
+      "id": "customer-010",
+      "Title": "Vertex Security",
+      "address": "18 Guard Lane, Newcastle",
+      "contatctperson": "Julia Brown",
+      "email": "julia.brown@vertexsec.test",
+      "phonenumber": "01915550110"
+    },
+    {
+      "id": "customer-011",
+      "Title": "Harbor Transport",
+      "address": "64 Port Street, Hull",
+      "contatctperson": "Karl Wilson",
+      "email": "karl.wilson@harbortrans.test",
+      "phonenumber": "01482550111"
+    },
+    {
+      "id": "customer-012",
+      "Title": "Pioneer Media",
+      "address": "10 Studio Road, Oxford",
+      "contatctperson": "Leila Adams",
+      "email": "leila.adams@pioneermedia.test",
+      "phonenumber": "01865550112"
+    },
+    {
+      "id": "customer-013",
+      "Title": "Evergreen Cleaners",
+      "address": "81 Greenway, Reading",
+      "contatctperson": "Marek Novak",
+      "email": "marek.novak@evergreen.test",
+      "phonenumber": "01185550113"
+    },
+    {
+      "id": "customer-014",
+      "Title": "Harborview Finance",
+      "address": "5 Bay Avenue, Portsmouth",
+      "contatctperson": "Nadia Hassan",
+      "email": "nadia.hassan@harborview.test",
+      "phonenumber": "02392550114"
+    },
+    {
+      "id": "customer-015",
+      "Title": "Cornerstone Builders",
+      "address": "29 Brick Road, Derby",
+      "contatctperson": "Owen Price",
+      "email": "owen.price@cornerstone.test",
+      "phonenumber": "01332550115"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
