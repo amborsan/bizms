@@ -16,11 +16,15 @@ function CustomerDetailsPage() {
     fuzzy: true,
   });
 
-  const { data: customer, isError, isLoading } = useQuery({
+  const {
+    data: customer,
+    isError,
+    isLoading,
+  } = useQuery({
     queryKey: ["customers", customerId],
     queryFn: async () => {
       const { data } = await axios.get<Customer>(
-        `http://localhost:3001/custommers/${customerId}`,
+        `http://localhost:3001/customers/${customerId}`,
       );
       return data;
     },

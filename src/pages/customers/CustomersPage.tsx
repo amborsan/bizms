@@ -24,7 +24,7 @@ function CustomersPage() {
     queryKey: ["customers"],
     queryFn: async () => {
       const { data } = await axios.get<Customer[]>(
-        "http://localhost:3001/custommers",
+        "http://localhost:3001/customers",
       );
       return data;
     },
@@ -32,7 +32,7 @@ function CustomersPage() {
 
   const deleteMutation = useMutation({
     mutationFn: (customerId: string) => {
-      return axios.delete(`http://localhost:3001/custommers/${customerId}`);
+      return axios.delete(`http://localhost:3001/customers/${customerId}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["customers"] });
@@ -60,9 +60,7 @@ function CustomersPage() {
           <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
             Customers
           </p>
-          <h1 className="mt-1 text-3xl font-bold text-slate-950">
-            Customers
-          </h1>
+          <h1 className="mt-1 text-3xl font-bold text-slate-950">Customers</h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
             Review customer companies and contact information.
           </p>

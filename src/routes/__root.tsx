@@ -24,6 +24,7 @@ function RootLayout() {
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/employees">Employees</Link>
           <Link to="/customers">Customers</Link>
+          <Link to="/create-customer">Add Customer</Link>
           <Link to="/sales">Sales</Link>
           <Link to="/reports">Reports</Link>
           <Link to="/signup"> Signup</Link>

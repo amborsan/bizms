@@ -17,6 +17,7 @@ import { Route as PublicSignupRouteImport } from './routes/_public/signup'
 import { Route as PublicSigninRouteImport } from './routes/_public/signin'
 import { Route as PublicCustomersRouteImport } from './routes/_public/customers'
 import { Route as PublicCreateTaskRouteImport } from './routes/_public/create-task'
+import { Route as PublicCreateCustomerRouteImport } from './routes/_public/create-customer'
 import { Route as ProtectedSalesRouteImport } from './routes/_protected/sales'
 import { Route as ProtectedReportsRouteImport } from './routes/_protected/reports'
 import { Route as ProtectedProductsRouteImport } from './routes/_protected/products'
@@ -65,6 +66,11 @@ const PublicCustomersRoute = PublicCustomersRouteImport.update({
 const PublicCreateTaskRoute = PublicCreateTaskRouteImport.update({
   id: '/create-task',
   path: '/create-task',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicCreateCustomerRoute = PublicCreateCustomerRouteImport.update({
+  id: '/create-customer',
+  path: '/create-customer',
   getParentRoute: () => PublicRouteRoute,
 } as any)
 const ProtectedSalesRoute = ProtectedSalesRouteImport.update({
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/products': typeof ProtectedProductsRoute
   '/reports': typeof ProtectedReportsRoute
   '/sales': typeof ProtectedSalesRoute
+  '/create-customer': typeof PublicCreateCustomerRoute
   '/create-task': typeof PublicCreateTaskRoute
   '/customers': typeof PublicCustomersRouteWithChildren
   '/signin': typeof PublicSigninRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/products': typeof ProtectedProductsRoute
   '/reports': typeof ProtectedReportsRoute
   '/sales': typeof ProtectedSalesRoute
+  '/create-customer': typeof PublicCreateCustomerRoute
   '/create-task': typeof PublicCreateTaskRoute
   '/customers': typeof PublicCustomersRouteWithChildren
   '/signin': typeof PublicSigninRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/_protected/products': typeof ProtectedProductsRoute
   '/_protected/reports': typeof ProtectedReportsRoute
   '/_protected/sales': typeof ProtectedSalesRoute
+  '/_public/create-customer': typeof PublicCreateCustomerRoute
   '/_public/create-task': typeof PublicCreateTaskRoute
   '/_public/customers': typeof PublicCustomersRouteWithChildren
   '/_public/signin': typeof PublicSigninRoute
@@ -196,6 +205,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/reports'
     | '/sales'
+    | '/create-customer'
     | '/create-task'
     | '/customers'
     | '/signin'
@@ -215,6 +225,7 @@ export interface FileRouteTypes {
     | '/products'
     | '/reports'
     | '/sales'
+    | '/create-customer'
     | '/create-task'
     | '/customers'
     | '/signin'
@@ -235,6 +246,7 @@ export interface FileRouteTypes {
     | '/_protected/products'
     | '/_protected/reports'
     | '/_protected/sales'
+    | '/_public/create-customer'
     | '/_public/create-task'
     | '/_public/customers'
     | '/_public/signin'
@@ -310,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/create-task'
       fullPath: '/create-task'
       preLoaderRoute: typeof PublicCreateTaskRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/create-customer': {
+      id: '/_public/create-customer'
+      path: '/create-customer'
+      fullPath: '/create-customer'
+      preLoaderRoute: typeof PublicCreateCustomerRouteImport
       parentRoute: typeof PublicRouteRoute
     }
     '/_protected/sales': {
@@ -489,6 +508,7 @@ const PublicTasksRouteWithChildren = PublicTasksRoute._addFileChildren(
 )
 
 interface PublicRouteRouteChildren {
+  PublicCreateCustomerRoute: typeof PublicCreateCustomerRoute
   PublicCreateTaskRoute: typeof PublicCreateTaskRoute
   PublicCustomersRoute: typeof PublicCustomersRouteWithChildren
   PublicSigninRoute: typeof PublicSigninRoute
@@ -498,6 +518,7 @@ interface PublicRouteRouteChildren {
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicCreateCustomerRoute: PublicCreateCustomerRoute,
   PublicCreateTaskRoute: PublicCreateTaskRoute,
   PublicCustomersRoute: PublicCustomersRouteWithChildren,
   PublicSigninRoute: PublicSigninRoute,

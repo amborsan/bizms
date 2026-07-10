@@ -28,22 +28,13 @@
       "id": "8zSZwd7M8AE"
     },
     {
-      "title": "Another",
+      "title": "Another2",
       "description": "dsdsfdsfeeeeeeeeeeeeeeeeee",
       "status": "Pending",
       "category": "Manifacturing",
       "priority": "High",
       "createdat": "7/10/2026",
       "id": "nmQrqJNXRIs"
-    },
-    {
-      "title": "mmmmmm",
-      "description": "nnnnnn",
-      "status": "Completed",
-      "category": "IT Support",
-      "priority": "High",
-      "createdat": "7/10/2026",
-      "id": "jXk1z3JXrfc"
     }
   ],
   "employees": [
@@ -54,7 +45,7 @@
       "email": "feras@chipmasters.com"
     }
   ],
-  "custommers": [
+  "customers": [
     {
       "id": "1",
       "Title": "Mobile tech point",
@@ -62,6 +53,14 @@
       "contatctperson": "Sam Tech",
       "email": "contact@mobiletech.biz",
       "phonenumber": "01232223333"
+    },
+    {
+      "Title": "test1",
+      "address": "yyyyyy",
+      "contatctperson": "rewrerer",
+      "email": "bbbbbbbbbbb@bbb.ccc",
+      "phonenumber": "123165654",
+      "id": "HvUwXbF4USQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
