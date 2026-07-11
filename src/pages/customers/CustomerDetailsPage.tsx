@@ -1,13 +1,17 @@
+import { useUser } from "@clerk/react";
 import { Link, Outlet, useMatchRoute, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import {
   EditIcon,
   ResourceCard,
-} from "../../components/molecules/ResourceCard";
+} from "../../components/molecules/resourceCard";
 import type { Customer } from "./customer.types";
 
 function CustomerDetailsPage() {
+  const { isSignedIn, user } = useUser();
+  const canManageCustomers =
+    isSignedIn && user?.publicMetadata?.role === "admin";
   const matchRoute = useMatchRoute();
   const { customerId } = useParams({ from: "/_public/customers/$customerId" });
 
@@ -69,14 +73,16 @@ function CustomerDetailsPage() {
             </p>
           </div>
 
-          <Link
-            to="/customers/$customerId/edit"
-            params={{ customerId }}
-            className="btn btn-primary btn-sm"
-          >
-            <EditIcon />
-            Edit
-          </Link>
+          {canManageCustomers && (
+            <Link
+              to="/customers/$customerId/edit"
+              params={{ customerId }}
+              className="btn btn-primary btn-sm"
+            >
+              <EditIcon />
+              Edit
+            </Link>
+          )}
         </div>
 
         <ResourceCard

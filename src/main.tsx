@@ -11,7 +11,6 @@ import { ToastProvider } from "./context/ToastContext";
 
 // import { store } from "./app/store";
 import "./index.css";
-import App from "./App";
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -37,7 +36,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
       <ThemeProvider>
-        <ToastProvider>
+        <ToastProvider defaultDuration={3000}>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
           </QueryClientProvider>

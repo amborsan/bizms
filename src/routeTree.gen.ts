@@ -18,9 +18,7 @@ import { Route as PublicSigninRouteImport } from './routes/_public/signin'
 import { Route as PublicCustomersRouteImport } from './routes/_public/customers'
 import { Route as PublicCreateTaskRouteImport } from './routes/_public/create-task'
 import { Route as PublicCreateCustomerRouteImport } from './routes/_public/create-customer'
-import { Route as ProtectedSalesRouteImport } from './routes/_protected/sales'
 import { Route as ProtectedReportsRouteImport } from './routes/_protected/reports'
-import { Route as ProtectedProductsRouteImport } from './routes/_protected/products'
 import { Route as ProtectedEmployeesRouteImport } from './routes/_protected/employees'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ProtectedCreateEmployeeRouteImport } from './routes/_protected/create-employee'
@@ -74,19 +72,9 @@ const PublicCreateCustomerRoute = PublicCreateCustomerRouteImport.update({
   path: '/create-customer',
   getParentRoute: () => PublicRouteRoute,
 } as any)
-const ProtectedSalesRoute = ProtectedSalesRouteImport.update({
-  id: '/sales',
-  path: '/sales',
-  getParentRoute: () => ProtectedRouteRoute,
-} as any)
 const ProtectedReportsRoute = ProtectedReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
-  getParentRoute: () => ProtectedRouteRoute,
-} as any)
-const ProtectedProductsRoute = ProtectedProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
 const ProtectedEmployeesRoute = ProtectedEmployeesRouteImport.update({
@@ -144,9 +132,7 @@ export interface FileRoutesByFullPath {
   '/create-employee': typeof ProtectedCreateEmployeeRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/employees': typeof ProtectedEmployeesRouteWithChildren
-  '/products': typeof ProtectedProductsRoute
   '/reports': typeof ProtectedReportsRoute
-  '/sales': typeof ProtectedSalesRoute
   '/create-customer': typeof PublicCreateCustomerRoute
   '/create-task': typeof PublicCreateTaskRoute
   '/customers': typeof PublicCustomersRouteWithChildren
@@ -165,9 +151,7 @@ export interface FileRoutesByTo {
   '/create-employee': typeof ProtectedCreateEmployeeRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/employees': typeof ProtectedEmployeesRouteWithChildren
-  '/products': typeof ProtectedProductsRoute
   '/reports': typeof ProtectedReportsRoute
-  '/sales': typeof ProtectedSalesRoute
   '/create-customer': typeof PublicCreateCustomerRoute
   '/create-task': typeof PublicCreateTaskRoute
   '/customers': typeof PublicCustomersRouteWithChildren
@@ -188,9 +172,7 @@ export interface FileRoutesById {
   '/_protected/create-employee': typeof ProtectedCreateEmployeeRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/employees': typeof ProtectedEmployeesRouteWithChildren
-  '/_protected/products': typeof ProtectedProductsRoute
   '/_protected/reports': typeof ProtectedReportsRoute
-  '/_protected/sales': typeof ProtectedSalesRoute
   '/_public/create-customer': typeof PublicCreateCustomerRoute
   '/_public/create-task': typeof PublicCreateTaskRoute
   '/_public/customers': typeof PublicCustomersRouteWithChildren
@@ -212,9 +194,7 @@ export interface FileRouteTypes {
     | '/create-employee'
     | '/dashboard'
     | '/employees'
-    | '/products'
     | '/reports'
-    | '/sales'
     | '/create-customer'
     | '/create-task'
     | '/customers'
@@ -233,9 +213,7 @@ export interface FileRouteTypes {
     | '/create-employee'
     | '/dashboard'
     | '/employees'
-    | '/products'
     | '/reports'
-    | '/sales'
     | '/create-customer'
     | '/create-task'
     | '/customers'
@@ -255,9 +233,7 @@ export interface FileRouteTypes {
     | '/_protected/create-employee'
     | '/_protected/dashboard'
     | '/_protected/employees'
-    | '/_protected/products'
     | '/_protected/reports'
-    | '/_protected/sales'
     | '/_public/create-customer'
     | '/_public/create-task'
     | '/_public/customers'
@@ -343,25 +319,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicCreateCustomerRouteImport
       parentRoute: typeof PublicRouteRoute
     }
-    '/_protected/sales': {
-      id: '/_protected/sales'
-      path: '/sales'
-      fullPath: '/sales'
-      preLoaderRoute: typeof ProtectedSalesRouteImport
-      parentRoute: typeof ProtectedRouteRoute
-    }
     '/_protected/reports': {
       id: '/_protected/reports'
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ProtectedReportsRouteImport
-      parentRoute: typeof ProtectedRouteRoute
-    }
-    '/_protected/products': {
-      id: '/_protected/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof ProtectedProductsRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
     '/_protected/employees': {
@@ -461,18 +423,14 @@ interface ProtectedRouteRouteChildren {
   ProtectedCreateEmployeeRoute: typeof ProtectedCreateEmployeeRoute
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedEmployeesRoute: typeof ProtectedEmployeesRouteWithChildren
-  ProtectedProductsRoute: typeof ProtectedProductsRoute
   ProtectedReportsRoute: typeof ProtectedReportsRoute
-  ProtectedSalesRoute: typeof ProtectedSalesRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedCreateEmployeeRoute: ProtectedCreateEmployeeRoute,
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedEmployeesRoute: ProtectedEmployeesRouteWithChildren,
-  ProtectedProductsRoute: ProtectedProductsRoute,
   ProtectedReportsRoute: ProtectedReportsRoute,
-  ProtectedSalesRoute: ProtectedSalesRoute,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(

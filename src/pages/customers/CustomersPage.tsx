@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Outlet, useMatchRoute, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import { useUser } from "@clerk/react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   EditIcon,
   EyeIcon,
@@ -10,7 +10,7 @@ import {
   ResourceCard,
   ResourceGrid,
   TrashIcon,
-} from "../../components/molecules/ResourceCard";
+} from "../../components/molecules/resourceCard";
 import type { Customer } from "./customer.types";
 import { useToast } from "../../context/ToastContext";
 
@@ -78,35 +78,33 @@ function CustomersPage() {
     return <div className="alert alert-error">Customers could not load.</div>;
   }
 
-  const customers = useMemo(() => (data ?? []) as Customer[], [data]);
+  const customers = (data ?? []) as Customer[];
   const canManageCustomers =
     isSignedIn && user?.publicMetadata?.role === "admin";
 
-  const filteredCustomers = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
+  const normalizedSearch = search.trim().toLowerCase();
 
-    const filtered = customers.filter((customer) => {
-      const matchesSearch =
-        normalizedSearch.length === 0 ||
-        customer.Title.toLowerCase().includes(normalizedSearch) ||
-        customer.contatctperson.toLowerCase().includes(normalizedSearch) ||
-        customer.email.toLowerCase().includes(normalizedSearch);
+  const filtered = customers.filter((customer) => {
+    const matchesSearch =
+      normalizedSearch.length === 0 ||
+      customer.Title.toLowerCase().includes(normalizedSearch) ||
+      customer.contatctperson.toLowerCase().includes(normalizedSearch) ||
+      customer.email.toLowerCase().includes(normalizedSearch);
 
-      return matchesSearch;
-    });
+    return matchesSearch;
+  });
 
-    return filtered.sort((left, right) => {
-      if (sortBy === "title-asc") return left.Title.localeCompare(right.Title);
-      if (sortBy === "title-desc") return right.Title.localeCompare(left.Title);
-      if (sortBy === "contact-asc")
-        return left.contatctperson.localeCompare(right.contatctperson);
-      if (sortBy === "contact-desc")
-        return right.contatctperson.localeCompare(left.contatctperson);
-      if (sortBy === "email-asc") return left.email.localeCompare(right.email);
+  const filteredCustomers = filtered.sort((left, right) => {
+    if (sortBy === "title-asc") return left.Title.localeCompare(right.Title);
+    if (sortBy === "title-desc") return right.Title.localeCompare(left.Title);
+    if (sortBy === "contact-asc")
+      return left.contatctperson.localeCompare(right.contatctperson);
+    if (sortBy === "contact-desc")
+      return right.contatctperson.localeCompare(left.contatctperson);
+    if (sortBy === "email-asc") return left.email.localeCompare(right.email);
 
-      return right.email.localeCompare(left.email);
-    });
-  }, [customers, search, sortBy]);
+    return right.email.localeCompare(left.email);
+  });
 
   const totalPages = Math.max(
     1,

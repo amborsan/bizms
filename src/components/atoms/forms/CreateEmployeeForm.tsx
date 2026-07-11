@@ -2,7 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import Button from "../Button/Button";
+import Button from "../button/Button";
 import FieldComponent from "./FieldComponent";
 import Input from "./Input";
 import type {

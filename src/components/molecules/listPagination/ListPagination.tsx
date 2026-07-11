@@ -21,7 +21,7 @@ function ListPagination({
         Page {currentPage} of {totalPages}
       </p>
 
-      <div className="join flex-wrap justify-center">
+      <div className="join flex-wrap justify-center gap-1.5">
         <button
           type="button"
           className="btn btn-sm join-item"

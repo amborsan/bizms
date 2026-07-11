@@ -5,6 +5,7 @@
 **BizMS: Business Management System**
 
 Team members:
+
 - Ali
 - Firas
 - I-Che
@@ -17,11 +18,13 @@ BizMS is a web app that helps small teams manage tasks, customers, and employees
 ## Slide 2: Problem Statement
 
 Many small teams manage operations using scattered tools:
+
 - Spreadsheets for tasks
 - Separate notes for customers
 - Unstructured employee records
 
 This causes:
+
 - Lost time
 - Data inconsistency
 - Difficult tracking of daily work
@@ -33,6 +36,7 @@ BizMS solves this by centralizing core operational data in one interface.
 ## Slide 3: Project Goals
 
 Our goals were to:
+
 - Build a clear, easy-to-use dashboard
 - Support CRUD workflows for key resources
 - Implement smooth routing between list/detail/edit pages
@@ -43,15 +47,18 @@ Our goals were to:
 ## Slide 4: Main Features
 
 ### Tasks
+
 - Task listing with search, filters, sorting, and pagination
 - Task details and edit flow
 - Admin actions for create/edit/delete
 
 ### Customers
+
 - Customer cards and details pages
 - Edit and create customer workflows
 
 ### Employees
+
 - Employee listing and details
 - Edit and create employee workflows
 
@@ -73,12 +80,14 @@ Our goals were to:
 ## Slide 6: Architecture Overview
 
 High-level flow:
+
 1. User action in UI component
 2. Page triggers query/mutation via TanStack Query
 3. Axios sends request to JSON Server
 4. Cache updates and UI rerenders
 
 Folder organization:
+
 - `src/pages` for feature pages
 - `src/routes` for route config
 - `src/components` for shared UI
@@ -98,16 +107,21 @@ Folder organization:
 ## Slide 8: Team Contribution Plan (Presenter Roles)
 
 ### Ali
-- Introduce problem statement and project goals
+
+- Explain routing, page structure, and data flow
+- Explain the code and logic and answer code questions
 - Explain tasks workflow and key UI interactions
 
 ### Firas
-- Explain routing, page structure, and data flow
+
+- Introduce problem statement and project goals
 - Demo customer and employee sections
 
 ### I-Che
+
 - Present tech stack and engineering decisions
 - Summarize lessons learned and future improvements
+- Explain tasks workflow and key UI interactions
 
 ---
 
@@ -126,12 +140,15 @@ Folder organization:
 ## Slide 10: Challenges and Fixes
 
 Example challenge:
+
 - We encountered a routing UI update issue in task detail navigation where URL changed but view did not update until refresh.
 
 How we fixed it:
+
 - Improved route-state-driven rendering in task pages so navigation updates the UI immediately.
 
 Result:
+
 - Smoother UX when opening task details and returning to the list.
 
 ---
