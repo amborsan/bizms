@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Button from "../../atoms/Button/Button";
 
 type ResourceCardField = {
   label: string;
@@ -59,17 +60,19 @@ function ResourceCard({
           {actions.length > 0 && (
             <div className="flex shrink-0 rounded-md border border-base-300 bg-base-200 p-1">
               {actions.map((action) => (
-                <button
+                <Button
                   key={action.label}
                   type="button"
                   aria-label={action.label}
                   title={action.label}
-                  className={`btn btn-square btn-sm min-h-8 h-8 w-8 border-0 ${actionVariantClasses[action.variant ?? "ghost"]}`}
+                  variant="ghost"
+                  size="sm"
+                  className={`btn-square min-h-8 h-8 w-8 border-0 ${actionVariantClasses[action.variant ?? "ghost"]}`}
                   disabled={action.disabled}
                   onClick={action.onClick}
                 >
                   {action.icon}
-                </button>
+                </Button>
               ))}
             </div>
           )}

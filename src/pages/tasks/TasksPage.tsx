@@ -14,6 +14,7 @@ import {
 import type { Task } from "./task.types";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "./taskBadges";
 import { useToast } from "../../context/ToastContext";
+import Button from "../../components/atoms/Button";
 
 const TASK_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 const TASK_SORT_OPTIONS = [
@@ -172,13 +173,13 @@ function TasksPage() {
           </p>
         </div>
         {canManageTasks && (
-          <button
+          <Button
             type="button"
             className="btn btn-primary"
             onClick={() => navigate({ to: "/create-task" })}
           >
             Add task
-          </button>
+          </Button>
         )}
       </div>
 

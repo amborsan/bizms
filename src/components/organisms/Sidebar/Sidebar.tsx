@@ -1,7 +1,9 @@
 import { SignInButton, UserButton, useAuth, useUser } from "@clerk/react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import Grainient from "../../backgrounds/Grainient";
 import { useTheme } from "../../../context/ThemeContext";
+import Button from "../../atoms/Button/Button";
 
 const coreNavigationItems = [
   { label: "Home", to: "/" },
@@ -26,19 +28,50 @@ export default function Sidebar() {
       initial={{ x: -80 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.4 }}
-      className="sticky top-0 flex h-screen w-72 shrink-0 flex-col border-r border-base-300 bg-base-100 px-5 py-6 text-base-content"
+      className="sticky top-0 flex h-screen w-72 shrink-0 flex-col overflow-hidden border-r border-base-300 bg-base-100 px-5 py-6 text-base-content"
     >
-      <div className="mb-8 shrink-0">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
-          Business
-        </p>
-        <h1 className="mt-2 text-2xl font-bold text-base-content">BMS</h1>
-        <p className="mt-2 text-sm leading-6 text-base-content/70">
-          Business management system navigation.
-        </p>
+      <div className="absolute inset-0">
+        <Grainient
+          color1="#ac9fff"
+          color2="#000000"
+          color3="#B497CF"
+          timeSpeed={0.65}
+          colorBalance={-0.44}
+          warpStrength={1}
+          warpFrequency={5}
+          warpSpeed={2}
+          warpAmplitude={50}
+          blendAngle={0}
+          blendSoftness={0.05}
+          rotationAmount={500}
+          noiseScale={2}
+          grainAmount={0.1}
+          grainScale={2}
+          grainAnimated={false}
+          contrast={1.5}
+          gamma={1}
+          saturation={1}
+          centerX={0}
+          centerY={0}
+          zoom={2}
+        />
+      </div>
+      <div className="absolute inset-0 bg-base-100/82 backdrop-blur-[1px]" />
+
+      <div className="relative mb-8 shrink-0">
+        <div className="mt-2 flex items-center gap-3">
+          <img
+            src="/logo.svg"
+            alt="BMS logo"
+            className={`h-10 w-10 shrink-0 object-contain ${
+              theme === "dark" ? "invert" : ""
+            }`}
+          />
+          <h1 className="text-2xl font-bold text-base-content">BMS</h1>
+        </div>
       </div>
 
-      <nav className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
+      <nav className="relative min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
         {coreNavigationItems.map((item) => (
           <Link
             key={item.to}
@@ -84,7 +117,7 @@ export default function Sidebar() {
         )}
       </nav>
 
-      <div className="mt-6 shrink-0 border-t border-base-300 pt-5">
+      <div className="relative mt-6 shrink-0 border-t border-base-300 pt-5">
         <div className="mb-4 flex items-center justify-between rounded-xl bg-base-200 px-4 py-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-base-content/60">
@@ -122,7 +155,7 @@ export default function Sidebar() {
           </div>
         ) : (
           <SignInButton mode="modal" forceRedirectUrl="/">
-            <button className="btn btn-primary w-full">Sign in</button>
+            <Button className="w-full">Sign in</Button>
           </SignInButton>
         )}
       </div>

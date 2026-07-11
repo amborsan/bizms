@@ -1,7 +1,8 @@
 import { useUser } from "@clerk/react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
+import Button from "../../components/atoms/Button/Button";
 import type { Customer } from "../customers/customer.types";
 import type { Employee } from "../employees/employee.types";
 import type { Task } from "../tasks/task.types";
@@ -36,6 +37,7 @@ function StatCard({ label, value, helperText }: StatCardProps) {
 
 export default function Dashboard() {
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const tasksQuery = useQuery({
     queryKey: ["tasks"],
@@ -108,17 +110,15 @@ export default function Dashboard() {
       <section className="overflow-hidden rounded-4xl border border-base-300 bg-base-100 p-6 shadow-sm sm:p-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-primary">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-primary">
               Admin dashboard
             </div>
             <div className="space-y-3">
-              <h1 className="text-4xl font-black leading-tight text-base-content sm:text-5xl">
+              <h2 className="font-light leading-tight text-base-content sm:text-4xl">
                 Welcome back{user?.firstName ? `, ${user.firstName}` : ""}.
-              </h1>
-              <p className="max-w-2xl text-base leading-7 text-base-content/70 sm:text-lg">
-                This is your control center for operational activity, team
-                management, and customer tracking. Review the current workload,
-                spot bottlenecks, and jump into the main areas of the app.
+              </h2>
+              <p className="font-light max-w-1xl text-base leading-7 text-base-content/60 sm:text-mg">
+                Track operations, teams, and customers in one place.
               </p>
             </div>
           </div>
@@ -135,18 +135,33 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <Link to="/tasks" className="btn btn-primary btn-sm">
+              <Button
+                size="sm"
+                onClick={() => void navigate({ to: "/tasks" })}
+              >
                 Tasks
-              </Link>
-              <Link to="/employees" className="btn btn-outline btn-sm">
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => void navigate({ to: "/employees" })}
+              >
                 Employees
-              </Link>
-              <Link to="/customers" className="btn btn-outline btn-sm">
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => void navigate({ to: "/customers" })}
+              >
                 Customers
-              </Link>
-              <Link to="/reports" className="btn btn-outline btn-sm">
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => void navigate({ to: "/reports" })}
+              >
                 Reports
-              </Link>
+              </Button>
             </div>
           </div>
         </div>

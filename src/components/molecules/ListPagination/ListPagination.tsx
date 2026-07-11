@@ -1,3 +1,5 @@
+import Button from "../../atoms/Button/Button";
+
 type ListPaginationProps = {
   currentPage: number;
   totalPages: number;
@@ -22,36 +24,38 @@ function ListPagination({
       </p>
 
       <div className="join flex-wrap justify-center">
-        <button
+        <Button
           type="button"
-          className="btn btn-sm join-item"
+          size="sm"
+          className="join-item"
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
         >
           Previous
-        </button>
+        </Button>
 
         {pages.map((page) => (
-          <button
+          <Button
             key={page}
             type="button"
-            className={`btn btn-sm join-item ${
-              page === currentPage ? "btn-primary" : "btn-outline"
-            }`}
+            size="sm"
+            variant={page === currentPage ? "primary" : "outline"}
+            className="join-item"
             onClick={() => onPageChange(page)}
           >
             {page}
-          </button>
+          </Button>
         ))}
 
-        <button
+        <Button
           type="button"
-          className="btn btn-sm join-item"
+          size="sm"
+          className="join-item"
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   );

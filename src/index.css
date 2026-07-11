@@ -16,3 +16,7 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+p {
+  @apply font-light;
+}

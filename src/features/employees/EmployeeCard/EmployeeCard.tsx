@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 
 import type { EmployeeCardProps } from "./EmployeeCard.types";
+import Button from "../../../components/atoms/Button/Button";
 
 export default function EmployeeCard({
   employee,
@@ -26,12 +27,13 @@ export default function EmployeeCard({
         <p>Salary: €{employee.salary}</p>
 
         <div className="card-actions justify-end">
-          <button
-            className="btn btn-error btn-sm"
+          <Button
+            variant="error"
+            size="sm"
             onClick={() => onDelete(employee.id)}
           >
             Delete
-          </button>
+          </Button>
         </div>
       </div>
     </motion.div>

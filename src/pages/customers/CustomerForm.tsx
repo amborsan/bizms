@@ -4,6 +4,7 @@ import axios from "axios";
 import { z } from "zod";
 import type { Customer, CustomerFormValues } from "./customer.types";
 import { useToast } from "../../context/ToastContext";
+import Button from "../../components/atoms/Button/Button";
 
 const customerSchema = z.object({
   Title: z.string().min(2, "Company title is required"),
@@ -124,9 +125,7 @@ function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
         </label>
 
         <div className="card-actions justify-end">
-          <button type="submit" className="btn btn-primary">
-            Save changes
-          </button>
+          <Button type="submit">Save changes</Button>
         </div>
       </div>
     </form>

@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import type { Employee } from "../types/employee.types";
 import type { EmployeeFormProps } from "./EmployeeForm.types";
+import Button from "../../../components/atoms/Button/Button";
 
 export default function EmployeeForm({ onSubmit }: EmployeeFormProps) {
   const [employee, setEmployee] = useState<Employee>({
@@ -85,7 +86,7 @@ export default function EmployeeForm({ onSubmit }: EmployeeFormProps) {
         onChange={handleChange}
       />
 
-      <button className="btn btn-primary">Add Employee</button>
+      <Button type="submit">Add Employee</Button>
     </form>
   );
 }

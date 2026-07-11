@@ -13,6 +13,7 @@ import {
 } from "../../components/molecules/ResourceCard";
 import type { Employee } from "./employee.types";
 import { useToast } from "../../context/ToastContext";
+import Button from "../../components/atoms/Button/Button";
 
 const EMPLOYEE_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 const EMPLOYEE_SORT_OPTIONS = [
@@ -136,13 +137,12 @@ function EmployeesPage() {
           </p>
         </div>
         {canManageEmployees && (
-          <button
+          <Button
             type="button"
-            className="btn btn-primary"
             onClick={() => navigate({ to: "/create-employee" })}
           >
             Add employee
-          </button>
+          </Button>
         )}
       </div>
 

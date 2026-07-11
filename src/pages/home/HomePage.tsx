@@ -1,5 +1,7 @@
 import { useAuth } from "@clerk/react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import Grainient from "../../components/backgrounds/Grainient";
+import Button from "../../components/atoms/Button/Button";
 
 const highlights = [
   {
@@ -28,39 +30,68 @@ const quickLinks = [
 
 function HomePage() {
   const { isSignedIn } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="relative overflow-hidden rounded-4xl border border-base-300 bg-base-100 p-6 shadow-sm sm:p-10 lg:p-14">
+      <div className="absolute inset-0">
+        <Grainient
+          color1="#ac9fff"
+          color2="#000000"
+          color3="#B497CF"
+          timeSpeed={0.75}
+          colorBalance={-0.1}
+          warpStrength={1}
+          warpFrequency={5}
+          warpSpeed={2}
+          warpAmplitude={50}
+          blendAngle={0}
+          blendSoftness={0.05}
+          rotationAmount={500}
+          noiseScale={2}
+          grainAmount={0.1}
+          grainScale={2}
+          grainAnimated={false}
+          contrast={1.5}
+          gamma={1}
+          saturation={1}
+          centerX={0}
+          centerY={0}
+          zoom={0.9}
+        />
+      </div>
+      <div className="absolute inset-0 bg-base-100/80 backdrop-blur-[1px]" />
       <div className="absolute -right-28 top-12 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
       <div className="absolute -bottom-24 left-10 h-80 w-80 rounded-full bg-secondary/10 blur-3xl" />
 
       <div className="relative space-y-12">
         <section className="grid gap-10 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-primary">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-primary">
               Business management system
             </div>
 
             <div className="space-y-4">
-              <h1 className="max-w-3xl text-4xl font-black leading-tight text-base-content sm:text-5xl lg:text-6xl">
-                One workspace for tasks, teams, and customer operations.
+              <h1 className="max-w-3xl text-4xl font-black leading-tight text-base-content sm:text-5xl lg:text-6xl uppercase">
+                Manage tasks, teams, and customers.
               </h1>
               <p className="max-w-2xl text-base leading-7 text-base-content/70 sm:text-lg">
-                Keep your daily work organized with a focused dashboard for
-                employees, customers, and task flow. Everything is built for a
-                fast management workflow.
+                A focused workspace for daily operations.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3">
               {isSignedIn ? (
                 <>
-                  <Link to="/dashboard" className="btn btn-primary">
+                  <Button onClick={() => void navigate({ to: "/dashboard" })}>
                     Open dashboard
-                  </Link>
-                  <Link to="/tasks" className="btn btn-outline">
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => void navigate({ to: "/tasks" })}
+                  >
                     Go to tasks
-                  </Link>
+                  </Button>
                 </>
               ) : (
                 <>

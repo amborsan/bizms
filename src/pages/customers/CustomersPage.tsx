@@ -13,6 +13,7 @@ import {
 } from "../../components/molecules/ResourceCard";
 import type { Customer } from "./customer.types";
 import { useToast } from "../../context/ToastContext";
+import Button from "../../components/atoms/Button/Button";
 
 const CUSTOMER_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 const CUSTOMER_SORT_OPTIONS = [
@@ -141,13 +142,12 @@ function CustomersPage() {
           </p>
         </div>
         {canManageCustomers && (
-          <button
+          <Button
             type="button"
-            className="btn btn-primary"
             onClick={() => navigate({ to: "/create-customer" })}
           >
             Add customer
-          </button>
+          </Button>
         )}
       </div>
 

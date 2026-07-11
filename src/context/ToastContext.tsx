@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import Button from "../components/atoms/Button/Button";
 
 type ToastType = "success" | "error" | "info";
 
@@ -94,13 +95,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((toast) => (
           <div key={toast.id} className={getToastClassName(toast.type)}>
             <span className="text-sm font-medium">{toast.message}</span>
-            <button
+            <Button
               type="button"
-              className="btn btn-ghost btn-xs"
+              variant="ghost"
+              size="sm"
+              className="btn-xs"
               onClick={() => removeToast(toast.id)}
             >
               Dismiss
-            </button>
+            </Button>
           </div>
         ))}
       </div>
