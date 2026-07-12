@@ -1,7 +1,7 @@
 import { useAuth } from "@clerk/react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import Grainient from "../../components/backgrounds/Grainient";
-import Button from "../../components/atoms/Button/Button";
+import Button from "../../components/atoms/button/Button";
 
 const highlights = [
   {

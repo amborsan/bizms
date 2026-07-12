@@ -8,7 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import Button from "../components/atoms/Button/Button";
+import Button from "../components/atoms/button/Button";
 
 type ToastType = "success" | "error" | "info";
 

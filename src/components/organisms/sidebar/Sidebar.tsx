@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import Grainient from "../../backgrounds/Grainient";
 import { useTheme } from "../../../context/ThemeContext";
-import Button from "../../atoms/Button/Button";
+import Button from "../../atoms/button/Button";
 
 const coreNavigationItems = [
   { label: "Home", to: "/" },

@@ -1,5 +1,5 @@
 import { SignInButton, UserButton, useAuth } from "@clerk/react";
-import Button from "../../atoms/Button/Button";
+import Button from "../../atoms/button/Button";
 
 export default function Navbar() {
   const { isSignedIn } = useAuth();

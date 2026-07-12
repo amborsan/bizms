@@ -24,7 +24,7 @@ function ListPagination({
       </p>
 
       <div className="join flex-wrap justify-center">
-        <button
+        <Button
           type="button"
           size="sm"
           className="join-item"

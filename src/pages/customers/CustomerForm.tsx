@@ -4,7 +4,7 @@ import axios from "axios";
 import { z } from "zod";
 import type { Customer, CustomerFormValues } from "./customer.types";
 import { useToast } from "../../context/ToastContext";
-import Button from "../../components/atoms/Button/Button";
+import Button from "../../components/atoms/button/Button";
 
 const customerSchema = z.object({
   Title: z.string().min(2, "Company title is required"),

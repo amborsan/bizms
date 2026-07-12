@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Button from "../../atoms/Button/Button";
+import Button from "../../atoms/button/Button";
 
 type ResourceCardField = {
   label: string;

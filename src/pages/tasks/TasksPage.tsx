@@ -14,7 +14,7 @@ import {
 import type { Task } from "./task.types";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "./taskBadges";
 import { useToast } from "../../context/ToastContext";
-import Button from "../../components/atoms/Button";
+import Button from "../../components/atoms/button";
 
 const TASK_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 const TASK_SORT_OPTIONS = [

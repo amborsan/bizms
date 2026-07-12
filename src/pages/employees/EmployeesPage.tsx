@@ -13,7 +13,7 @@ import {
 } from "../../components/molecules/resourceCard";
 import type { Employee } from "./employee.types";
 import { useToast } from "../../context/ToastContext";
-import Button from "../../components/atoms/Button/Button";
+import Button from "../../components/atoms/button/Button";
 
 const EMPLOYEE_PAGE_SIZE_OPTIONS = [6, 12, 24] as const;
 const EMPLOYEE_SORT_OPTIONS = [

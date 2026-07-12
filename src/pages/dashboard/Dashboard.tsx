@@ -2,7 +2,7 @@ import { useUser } from "@clerk/react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
-import Button from "../../components/atoms/Button/Button";
+import Button from "../../components/atoms/button/Button";
 import type { Customer } from "../customers/customer.types";
 import type { Employee } from "../employees/employee.types";
 import type { Task } from "../tasks/task.types";
