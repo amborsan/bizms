@@ -8,7 +8,7 @@ Team members:
 
 - Ali
 - Firas
-- I-Che
+- I-Chieh
 
 One-line pitch:
 BizMS is a web app that helps small teams manage tasks, customers, and employees from one place.
@@ -117,7 +117,7 @@ Folder organization:
 - Introduce problem statement and project goals
 - Demo customer and employee sections
 
-### I-Che
+### I-Chieh
 
 - Present tech stack and engineering decisions
 - Summarize lessons learned and future improvements
