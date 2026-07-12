@@ -171,12 +171,6 @@
       "id": "1"
     },
     {
-      "name": "aaaaaaa",
-      "department": "ssssss",
-      "email": "ddddali@dcdddd.org",
-      "id": "pmavkKFUzbA"
-    },
-    {
       "id": "employee-001",
       "name": "Amina Yusuf",
       "department": "Operations",
@@ -275,14 +269,6 @@
       "contatctperson": "Sam Tech",
       "email": "contact@mobiletech.biz",
       "phonenumber": "01232223333"
-    },
-    {
-      "Title": "test1",
-      "address": "yyyyyy",
-      "contatctperson": "rewrerer",
-      "email": "bbbbbbbbbbb@bbb.ccc",
-      "phonenumber": "123165654",
-      "id": "HvUwXbF4USQ"
     },
     {
       "id": "customer-001",

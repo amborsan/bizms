@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useUser } from "@clerk/react";
 import {
   EditIcon,
@@ -10,7 +10,7 @@ import {
   ResourceCard,
   ResourceGrid,
   TrashIcon,
-} from "../../components/molecules/ResourceCard";
+} from "../../components/molecules/resourceCard";
 import type { Task } from "./task.types";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "./taskBadges";
 import { useToast } from "../../context/ToastContext";
@@ -75,63 +75,55 @@ function TasksPage() {
   const isTaskChildRoute =
     location.pathname !== "/tasks" && location.pathname.startsWith("/tasks/");
 
-  const tasks = useMemo(() => (data ?? []) as Task[], [data]);
+  const tasks = (data ?? []) as Task[];
   const canManageTasks = isSignedIn && user?.publicMetadata?.role === "admin";
 
-  const categories = useMemo(
-    () =>
-      Array.from(
-        new Set(tasks.map((task) => task.category).filter(Boolean)),
-      ).sort(),
-    [tasks],
-  );
+  const categories = Array.from(
+    new Set(tasks.map((task) => task.category).filter(Boolean)),
+  ).sort();
 
-  const filteredTasks = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
+  const normalizedSearch = search.trim().toLowerCase();
 
-    const filtered = tasks.filter((task) => {
-      const matchesSearch =
-        normalizedSearch.length === 0 ||
-        task.title.toLowerCase().includes(normalizedSearch) ||
-        task.description.toLowerCase().includes(normalizedSearch);
-      const matchesStatus =
-        statusFilter === "all" || task.status === statusFilter;
-      const matchesCategory =
-        categoryFilter === "all" || task.category === categoryFilter;
+  const filtered = tasks.filter((task) => {
+    const matchesSearch =
+      normalizedSearch.length === 0 ||
+      task.title.toLowerCase().includes(normalizedSearch) ||
+      task.description.toLowerCase().includes(normalizedSearch);
+    const matchesStatus =
+      statusFilter === "all" || task.status === statusFilter;
+    const matchesCategory =
+      categoryFilter === "all" || task.category === categoryFilter;
 
-      return matchesSearch && matchesStatus && matchesCategory;
-    });
+    return matchesSearch && matchesStatus && matchesCategory;
+  });
 
-    return filtered.sort((left, right) => {
-      if (sortBy === "createdat-desc") {
-        return (
-          new Date(right.createdat).getTime() -
-          new Date(left.createdat).getTime()
-        );
-      }
+  const filteredTasks = filtered.sort((left, right) => {
+    if (sortBy === "createdat-desc") {
+      return (
+        new Date(right.createdat).getTime() - new Date(left.createdat).getTime()
+      );
+    }
 
-      if (sortBy === "createdat-asc") {
-        return (
-          new Date(left.createdat).getTime() -
-          new Date(right.createdat).getTime()
-        );
-      }
+    if (sortBy === "createdat-asc") {
+      return (
+        new Date(left.createdat).getTime() - new Date(right.createdat).getTime()
+      );
+    }
 
-      if (sortBy === "title-asc") {
-        return left.title.localeCompare(right.title);
-      }
+    if (sortBy === "title-asc") {
+      return left.title.localeCompare(right.title);
+    }
 
-      if (sortBy === "title-desc") {
-        return right.title.localeCompare(left.title);
-      }
+    if (sortBy === "title-desc") {
+      return right.title.localeCompare(left.title);
+    }
 
-      if (sortBy === "priority-desc") {
-        return getPriorityRank(right.priority) - getPriorityRank(left.priority);
-      }
+    if (sortBy === "priority-desc") {
+      return getPriorityRank(right.priority) - getPriorityRank(left.priority);
+    }
 
-      return getPriorityRank(left.priority) - getPriorityRank(right.priority);
-    });
-  }, [categoryFilter, search, sortBy, statusFilter, tasks]);
+    return getPriorityRank(left.priority) - getPriorityRank(right.priority);
+  });
 
   const totalPages = Math.max(1, Math.ceil(filteredTasks.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);

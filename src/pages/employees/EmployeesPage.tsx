@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Outlet, useMatchRoute, useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import { useUser } from "@clerk/react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   EditIcon,
   EyeIcon,
@@ -10,7 +10,7 @@ import {
   ResourceCard,
   ResourceGrid,
   TrashIcon,
-} from "../../components/molecules/ResourceCard";
+} from "../../components/molecules/resourceCard";
 import type { Employee } from "./employee.types";
 import { useToast } from "../../context/ToastContext";
 import Button from "../../components/atoms/Button/Button";
@@ -77,32 +77,29 @@ function EmployeesPage() {
     return <div className="alert alert-error">Employees could not load.</div>;
   }
 
-  const employees = useMemo(() => (data ?? []) as Employee[], [data]);
+  const employees = (data ?? []) as Employee[];
   const canManageEmployees =
     isSignedIn && user?.publicMetadata?.role === "admin";
+  const normalizedSearch = search.trim().toLowerCase();
 
-  const filteredEmployees = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
+  const filtered = employees.filter((employee) => {
+    const matchesSearch =
+      normalizedSearch.length === 0 ||
+      employee.name.toLowerCase().includes(normalizedSearch) ||
+      employee.department.toLowerCase().includes(normalizedSearch) ||
+      employee.email.toLowerCase().includes(normalizedSearch);
 
-    const filtered = employees.filter((employee) => {
-      const matchesSearch =
-        normalizedSearch.length === 0 ||
-        employee.name.toLowerCase().includes(normalizedSearch) ||
-        employee.department.toLowerCase().includes(normalizedSearch) ||
-        employee.email.toLowerCase().includes(normalizedSearch);
+    return matchesSearch;
+  });
 
-      return matchesSearch;
-    });
+  const filteredEmployees = filtered.sort((left, right) => {
+    if (sortBy === "name-asc") return left.name.localeCompare(right.name);
+    if (sortBy === "name-desc") return right.name.localeCompare(left.name);
+    if (sortBy === "department-asc")
+      return left.department.localeCompare(right.department);
 
-    return filtered.sort((left, right) => {
-      if (sortBy === "name-asc") return left.name.localeCompare(right.name);
-      if (sortBy === "name-desc") return right.name.localeCompare(left.name);
-      if (sortBy === "department-asc")
-        return left.department.localeCompare(right.department);
-
-      return right.department.localeCompare(left.department);
-    });
-  }, [employees, search, sortBy]);
+    return right.department.localeCompare(left.department);
+  });
 
   const totalPages = Math.max(
     1,

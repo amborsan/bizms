@@ -1,5 +1,5 @@
 import { useForm } from "@tanstack/react-form";
-import Button from "../Button/Button";
+import Button from "../button/Button";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import z from "zod";
@@ -69,7 +69,7 @@ function CreateTaskForm({
         mode === "edit"
           ? "Task updated successfully."
           : "Task created successfully.",
-        { type: "success" },
+        { type: "success", duration: 3000 },
       );
       onSuccess?.(task);
     },

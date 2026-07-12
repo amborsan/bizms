@@ -26,7 +26,10 @@ type ToastOptions = {
 type ToastContextValue = {
   showToast: (message: string, options?: ToastOptions) => void;
 };
-
+type ToastProviderProps = {
+  children: ReactNode;
+  defaultDuration?: number;
+};
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
 
 function getToastClassName(type: ToastType) {
@@ -36,7 +39,10 @@ function getToastClassName(type: ToastType) {
   return "alert alert-info shadow-lg";
 }
 
-export function ToastProvider({ children }: { children: ReactNode }) {
+export function ToastProvider({
+  children,
+  defaultDuration = 3000,
+}: ToastProviderProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const timeoutsRef = useRef<Map<string, ReturnType<typeof window.setTimeout>>>(
     new Map(),
@@ -69,7 +75,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
       const timeoutId = window.setTimeout(() => {
         removeToast(toastId);
-      }, options?.duration ?? 3000);
+      }, options?.duration ?? defaultDuration);
 
       timeoutsRef.current.set(toastId, timeoutId);
     },

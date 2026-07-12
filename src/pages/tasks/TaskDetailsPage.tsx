@@ -1,14 +1,18 @@
+import { useUser } from "@clerk/react";
 import { Link, Outlet, useLocation, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import {
   EditIcon,
   ResourceCard,
-} from "../../components/molecules/ResourceCard";
+} from "../../components/molecules/resourceCard";
 import type { Task } from "./task.types";
 import { getPriorityBadgeClass, getStatusBadgeClass } from "./taskBadges";
 
 function TaskDetailsPage() {
+  const { isSignedIn, user } = useUser();
+
+  const canManageTasks = isSignedIn && user?.publicMetadata?.role === "admin";
   const location = useLocation();
   const { taskId } = useParams({ from: "/_public/tasks/$taskId" });
   const {
@@ -67,14 +71,16 @@ function TaskDetailsPage() {
           </div>
 
           <div className="flex gap-2">
-            <Link
-              to="/tasks/$taskId/edit"
-              params={{ taskId }}
-              className="btn btn-primary btn-sm"
-            >
-              <EditIcon />
-              Edit
-            </Link>
+            {canManageTasks && (
+              <Link
+                to="/tasks/$taskId/edit"
+                params={{ taskId }}
+                className="btn btn-primary btn-sm"
+              >
+                <EditIcon />
+                Edit
+              </Link>
+            )}
           </div>
         </div>
 

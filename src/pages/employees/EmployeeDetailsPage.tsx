@@ -1,13 +1,17 @@
+import { useUser } from "@clerk/react";
 import { Link, Outlet, useMatchRoute, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import {
   EditIcon,
   ResourceCard,
-} from "../../components/molecules/ResourceCard";
+} from "../../components/molecules/resourceCard";
 import type { Employee } from "./employee.types";
 
 function EmployeeDetailsPage() {
+  const { isSignedIn, user } = useUser();
+  const canManageEmployees =
+    isSignedIn && user?.publicMetadata?.role === "admin";
   const matchRoute = useMatchRoute();
   const { employeeId } = useParams({
     from: "/_protected/employees/$employeeId",
@@ -71,14 +75,16 @@ function EmployeeDetailsPage() {
             </p>
           </div>
 
-          <Link
-            to="/employees/$employeeId/edit"
-            params={{ employeeId }}
-            className="btn btn-primary btn-sm"
-          >
-            <EditIcon />
-            Edit
-          </Link>
+          {canManageEmployees && (
+            <Link
+              to="/employees/$employeeId/edit"
+              params={{ employeeId }}
+              className="btn btn-primary btn-sm"
+            >
+              <EditIcon />
+              Edit
+            </Link>
+          )}
         </div>
 
         <ResourceCard

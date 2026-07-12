@@ -1,4 +1,4 @@
-import Button from "../../atoms/Button/Button";
+import Button from "../../atoms/button";
 
 type ListPaginationProps = {
   currentPage: number;
@@ -24,7 +24,7 @@ function ListPagination({
       </p>
 
       <div className="join flex-wrap justify-center">
-        <Button
+        <button
           type="button"
           size="sm"
           className="join-item"

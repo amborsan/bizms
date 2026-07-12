@@ -22,7 +22,6 @@ const highlights = [
 ] as const;
 
 const quickLinks = [
-  { label: "Open Homepage", to: "/" },
   { label: "Browse tasks", to: "/tasks" },
   { label: "View employees", to: "/employees" },
   { label: "Review customers", to: "/customers" },

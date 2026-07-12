@@ -2,7 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import Button from "../../components/atoms/Button/Button";
+import Button from "../../components/atoms/button/Button";
 import FieldComponent from "../../components/atoms/forms/FieldComponent";
 import Input from "../../components/atoms/forms/Input";
 import type { Employee, EmployeeFormValues } from "./employee.types";
