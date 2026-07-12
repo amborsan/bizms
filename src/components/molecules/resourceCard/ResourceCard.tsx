@@ -92,13 +92,13 @@ function ResourceCard({
         )}
 
         {fields.length > 0 && (
-          <dl className="mt-auto grid gap-3 border-t border-base-300 pt-4 text-sm sm:grid-cols-2">
+          <dl className="mt-auto grid gap-3 border-t border-base-300 pt-4 text-sm sm:grid-cols-2 overflow-hidden list-col-wrap">
             {fields.map((field) => (
               <div key={field.label} className="rounded-md bg-base-200 p-3">
                 <dt className="text-xs font-semibold uppercase text-base-content/60">
                   {field.label}
                 </dt>
-                <dd className="mt-1 font-medium text-base-content">
+                <dd className="mt-1 font-medium text-base-content break-normal wrap-break-word">
                   {field.value}
                 </dd>
               </div>

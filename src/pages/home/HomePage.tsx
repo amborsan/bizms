@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import Grainient from "../../components/backgrounds/Grainient";
 import Button from "../../components/atoms/button/Button";
+import HeroSection from "../../components/organisms/hero/HeroSection";
 
 const highlights = [
   {
@@ -62,7 +63,7 @@ function HomePage() {
       <div className="absolute inset-0 bg-base-100/80 backdrop-blur-[1px]" />
       <div className="absolute -right-28 top-12 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
       <div className="absolute -bottom-24 left-10 h-80 w-80 rounded-full bg-secondary/10 blur-3xl" />
-
+      <HeroSection />
       <div className="relative space-y-12">
         <section className="grid gap-10 lg:grid-cols-[1.3fr_0.9fr] lg:items-center">
           <div className="space-y-6">
