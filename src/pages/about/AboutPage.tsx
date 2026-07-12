@@ -6,19 +6,19 @@ import Grainient from "../../components/backgrounds/Grainient";
 const teamMembers = [
   {
     name: "Feras Hifean",
-    description: "Structures and planing devoloper.",
+    description: "Structures and planing developer.",
     githubLink: "https://github.com/Feras-tec",
     image: "https://avatars.githubusercontent.com/u/249945254?v=4",
   },
   {
     name: "I-Chieh Liu",
-    description: "UI designer and devoloper.",
+    description: "UI designer and developer.",
     githubLink: "https://github.com/i-chieh-liu-88",
     image: "https://avatars.githubusercontent.com/u/265013778?v=4",
   },
   {
     name: "Ali Borsan",
-    description: "Code and Data devoloper.",
+    description: "Code and Data developer.",
     githubLink: "https://github.com/amborsan",
     image: "https://avatars.githubusercontent.com/u/194240593?v=4",
   },
