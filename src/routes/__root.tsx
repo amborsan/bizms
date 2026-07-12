@@ -11,7 +11,7 @@ function RootLayout() {
     <div className="flex min-h-screen bg-base-200 text-base-content">
       <Sidebar />
 
-      <main className="flex flex-col min-h-fitflex-1 p-6  ">
+      <main className="flex flex-col min-h-fitflex-1 p-6 m-auto ">
         <div>
           <Outlet />
         </div>
