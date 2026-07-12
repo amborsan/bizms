@@ -101,7 +101,11 @@ export default function Sidebar() {
         <div className="absolute inset-0 bg-base-100/82 backdrop-blur-[1px]" />
 
         <div className="relative mb-8 shrink-0 flex items-center justify-between">
-          <div className="mt-2 flex items-center gap-3">
+          <Link
+            to="/"
+            onClick={closeMenu}
+            className="mt-2 flex items-center gap-3"
+          >
             <img
               src="/logo.svg"
               alt="BMS logo"
@@ -110,7 +114,7 @@ export default function Sidebar() {
               }`}
             />
             <h1 className="text-2xl font-bold text-base-content">BMS</h1>
-          </div>
+          </Link>
 
           {/* Mobile Close Button (X) */}
           <button

@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
-import { Link } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import Button from "../../atoms/button/Button";
 
 export default function HeroSection() {
+  const navigate = useNavigate();
+
   return (
     <section className="relative overflow-hidden bg-base-100 py-16 sm:py-24 lg:py-32 rounded-2xl mb-2.5">
       {/* Background Glow Effects */}
@@ -17,10 +20,10 @@ export default function HeroSection() {
           className="max-w-2xl lg:w-1/2"
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-primary mb-6">
-            Meet BizMS
+            Meet BMS
           </div>
 
-          <h1 className="text-4xl font-black tracking-tight text-base-content sm:text-6xl mb-6">
+          <h1 className="max-w-3xl text-4xl font-black leading-tight text-base-content sm:text-5xl lg:text-5xl uppercase">
             Stop scattering your workflow. <br className="hidden lg:block" />
             <span className="text-primary text-balance">
               Unify your business.
@@ -28,24 +31,25 @@ export default function HeroSection() {
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-base-content/70 mb-8 max-w-xl">
-            Manage tasks, track employees, and serve customers—all in one
-            centralized dashboard. Reclaim your team's lost time and leave the
-            messy spreadsheets behind.
+            All in one dashboard. Manage tasks, employees, and customers.
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Link
-              to="/signup"
-              className="btn btn-primary btn-lg shadow-lg shadow-primary/30 rounded-xl"
+            <Button
+              size="md"
+              // className="shadow-lg shadow-primary/30 rounded-xl"
+              onClick={() => void navigate({ to: "/signup" })}
             >
               Get Started for Free
-            </Link>
-            <Link
-              to="/about"
-              className="btn btn-ghost btn-lg text-base-content rounded-xl"
+            </Button>
+            <Button
+              variant="ghost"
+              size="md"
+              // className="text-base-content rounded-xl"
+              onClick={() => void navigate({ to: "/about" })}
             >
               See how it works <span aria-hidden="true">→</span>
-            </Link>
+            </Button>
           </div>
         </motion.div>
 
